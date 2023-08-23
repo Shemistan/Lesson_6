@@ -19,7 +19,7 @@ func TestSum(t *testing.T) {
 
 	t.Run("test sub", func(t *testing.T) {
 		res := sum(1, 4)
-		assert.Equal(t, res, 7)
+		assert.Equal(t, res, 5)
 	})
 
 }
