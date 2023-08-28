@@ -25,10 +25,18 @@ func Server(h api.IApi) {
 		Login:    "login_1",
 		Password: "password_1",
 	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	_, err = h.Auth(&models.AuthRequest{
 		Login:    "login_1",
 		Password: "password_1",
 	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	_, err = h.Auth(&models.AuthRequest{
 		Login:    "login_2",
 		Password: "password_2",

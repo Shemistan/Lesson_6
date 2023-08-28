@@ -27,14 +27,15 @@ func (a *api) Auth(req *models.AuthRequest) (int, error) {
 	if req == nil {
 		return 0, errors.New("request is nil")
 	}
+
+	res, err := a.serv.Auth(req)
+
 	if req.Login == "" {
 		return 0, errors.New("login is empty")
 	}
 	if req.Password == "" {
 		return 0, errors.New("password is empty")
 	}
-
-	res, err := a.serv.Auth(req)
 	if err != nil {
 		return 0, err
 	}

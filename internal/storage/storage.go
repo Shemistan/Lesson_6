@@ -225,11 +225,3 @@ func (c *Conn) Close() error {
 	c.val = false
 	return nil
 }
-
-func (c *Conn) IsClose() bool {
-	if c.val {
-		return false
-	}
-
-	return true
-}

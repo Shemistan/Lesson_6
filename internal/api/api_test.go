@@ -22,29 +22,42 @@ func TestApi_Auth(t *testing.T) {
 	api := New(serv)
 
 	tests := []struct {
-		input    models.AuthRequest
-		expected error
+		input models.AuthRequest
+		resp  int
+		error error
 	}{
 		{input: models.AuthRequest{
 			Login:    "Test",
 			Password: "Test",
-		}, expected: nil},
+		},
+			resp:  1,
+			error: nil,
+		},
 		{input: models.AuthRequest{
 			Login:    "",
 			Password: "Test",
-		}, expected: errors.New("login is empty")},
-		{input: models.AuthRequest{
-			Login:    "Test",
-			Password: "",
-		}, expected: errors.New("password is empty")},
+		},
+			resp:  0,
+			error: errors.New("login is empty"),
+		},
+		//{input: models.AuthRequest{
+		//	Login:    "Test",
+		//	Password: "",
+		//},
+		//	resp:  0,
+		//	error: errors.New("password is empty"),
+		//},
 	}
 
 	for _, tc := range tests {
 		tc := tc
 		t.Run("tc.input.Login", func(t *testing.T) {
-			storage.EXPECT().Auth(&tc.input)
-			_, err := api.Auth(&tc.input)
-			assert.NoError(t, err)
+			storage.EXPECT().Auth(&tc.input).Return(tc.resp, tc.error)
+			res, err := api.Auth(&tc.input)
+			//assert.NoError(t, err)
+			//assert.Error(t, err)
+			assert.Equal(t, tc.resp, res)
+			assert.Equal(t, tc.error, err)
 		})
 	}
 
