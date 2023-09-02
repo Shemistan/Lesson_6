@@ -35,7 +35,7 @@ func (m *MockIStorage) EXPECT() *MockIStorageMockRecorder {
 }
 
 // Auth mocks base method.
-func (m *MockIStorage) Auth(req *models.AuthRequest) (int, error) {
+func (m *MockIStorage) Auth(req *models.User) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Auth", req)
 	ret0, _ := ret[0].(int)
@@ -93,10 +93,10 @@ func (mr *MockIStorageMockRecorder) GetUser(id interface{}) *gomock.Call {
 }
 
 // GetUsers mocks base method.
-func (m *MockIStorage) GetUsers() (*[]models.User, error) {
+func (m *MockIStorage) GetUsers() ([]*models.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers")
-	ret0, _ := ret[0].(*[]models.User)
+	ret0, _ := ret[0].([]*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

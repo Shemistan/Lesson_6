@@ -1,13 +1,14 @@
 package converters
 
 import (
-	"github.com/Shemistan/Lesson_6/internal/models"
 	"time"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
 )
 
-func ApiAuthModelToServiceUserModel(id int, req models.AuthRequest) *models.User {
-	res := &models.User{
-		ID:               id,
+func ApiAuthModelToServiceUserModel(req models.AuthRequest) *models.User {
+	return &models.User{
+		ID:               0,
 		Login:            req.Login,
 		Name:             req.Login,
 		Surname:          req.Login,
@@ -16,5 +17,4 @@ func ApiAuthModelToServiceUserModel(id int, req models.AuthRequest) *models.User
 		RegistrationDate: time.Now(),
 		UpdateDate:       time.Now(),
 	}
-	return res
 }

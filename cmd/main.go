@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Shemistan/Lesson_6/internal/api"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
 	"github.com/Shemistan/Lesson_6/internal/storage"
-	"time"
 )
 
 func main() {

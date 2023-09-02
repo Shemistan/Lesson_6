@@ -1,7 +1,7 @@
 package api
 
 import (
-	"errors"
+	"github.com/Shemistan/Lesson_6/internal/converters"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
 )
@@ -10,7 +10,7 @@ type IApi interface {
 	Auth(req *models.AuthRequest) (int, error)
 	UpdateUser(id int, req *models.UserRequest) error
 	GetUser(id int) (*models.User, error)
-	GetUsers() (*[]models.User, error)
+	GetUsers() ([]*models.User, error)
 	DeleteUser(id int) error
 	GetStatistics() *models.Statistics
 }
@@ -24,18 +24,14 @@ type api struct {
 }
 
 func (a *api) Auth(req *models.AuthRequest) (int, error) {
-	if req == nil {
-		return 0, errors.New("request is nil")
+	err := ValidateAuthRequest(req)
+	if err != nil {
+		return 0, err
 	}
 
-	res, err := a.serv.Auth(req)
+	user := converters.ApiAuthModelToServiceUserModel(*req)
 
-	if req.Login == "" {
-		return 0, errors.New("login is empty")
-	}
-	if req.Password == "" {
-		return 0, errors.New("password is empty")
-	}
+	res, err := a.serv.Auth(user)
 	if err != nil {
 		return 0, err
 	}
@@ -44,7 +40,12 @@ func (a *api) Auth(req *models.AuthRequest) (int, error) {
 }
 
 func (a *api) UpdateUser(id int, req *models.UserRequest) error {
-	err := a.serv.UpdateUser(id, req)
+	err := ValidateUpdateUser(id, req)
+	if err != nil {
+		return err
+	}
+
+	err = a.serv.UpdateUser(id, req)
 	if err != nil {
 		return err
 	}
@@ -61,10 +62,10 @@ func (a *api) GetUser(id int) (*models.User, error) {
 	return res, nil
 }
 
-func (a *api) GetUsers() (*[]models.User, error) {
+func (a *api) GetUsers() ([]*models.User, error) {
 	res, err := a.serv.GetUsers()
 	if err != nil {
-		return &[]models.User{}, err
+		return []*models.User{}, err
 	}
 
 	return res, nil

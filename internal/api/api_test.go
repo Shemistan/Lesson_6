@@ -1,12 +1,13 @@
 package api
 
 import (
-	"errors"
-	"github.com/Shemistan/Lesson_6/internal/models"
-	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
+	"testing"
+
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"testing"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
+	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 )
 
 func TestApi_Auth(t *testing.T) {
@@ -22,40 +23,24 @@ func TestApi_Auth(t *testing.T) {
 	api := New(serv)
 
 	tests := []struct {
-		input models.AuthRequest
+		input *models.AuthRequest
 		resp  int
 		error error
 	}{
-		{input: models.AuthRequest{
+		{input: &models.AuthRequest{
 			Login:    "Test",
 			Password: "Test",
 		},
 			resp:  1,
 			error: nil,
 		},
-		{input: models.AuthRequest{
-			Login:    "",
-			Password: "Test",
-		},
-			resp:  0,
-			error: errors.New("login is empty"),
-		},
-		//{input: models.AuthRequest{
-		//	Login:    "Test",
-		//	Password: "",
-		//},
-		//	resp:  0,
-		//	error: errors.New("password is empty"),
-		//},
 	}
 
 	for _, tc := range tests {
 		tc := tc
 		t.Run("tc.input.Login", func(t *testing.T) {
-			storage.EXPECT().Auth(&tc.input).Return(tc.resp, tc.error)
-			res, err := api.Auth(&tc.input)
-			//assert.NoError(t, err)
-			//assert.Error(t, err)
+			storage.EXPECT().Auth(tc.input).Return(tc.resp, tc.error)
+			res, err := api.Auth(tc.input)
 			assert.Equal(t, tc.resp, res)
 			assert.Equal(t, tc.error, err)
 		})

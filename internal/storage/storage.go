@@ -2,48 +2,47 @@ package storage
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/internal/converters"
-	"github.com/Shemistan/Lesson_6/internal/models"
 	"log"
 	"time"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
 )
 
 type IStorage interface {
-	Auth(req *models.AuthRequest) (int, error)
+	Auth(req *models.User) (int, error)
 	UpdateUser(id int, req *models.UserRequest) error
 	GetUser(id int) (*models.User, error)
-	GetUsers() (*[]models.User, error)
+	GetUsers() ([]*models.User, error)
 	DeleteUser(id int) error
 	GetStatistics() *models.Statistics
 }
 
 func New(host string, port, ttl int, conn *Conn) IStorage {
 	return &storage{
-		db:         make(map[int]*models.User),
-		ids:        0,
-		Host:       host,
-		Port:       port,
-		TLL:        ttl,
-		conn:       conn,
-		statistics: models.Statistics{},
+		db:   make(map[int]*models.User),
+		ids:  0,
+		Host: host,
+		Port: port,
+		TLL:  ttl,
+		conn: conn,
 	}
 }
 
 type storage struct {
-	db         map[int]*models.User
-	ids        int
-	Host       string
-	Port       int
-	TLL        int
-	conn       *Conn
-	statistics models.Statistics
+	db   map[int]*models.User
+	ids  int
+	Host string
+	Port int
+	TLL  int
+	conn *Conn
 }
 
-func (s *storage) Auth(req *models.AuthRequest) (int, error) {
-	if req == nil {
-		return 0, errors.New("user is nil")
-	}
+func (s *storage) GetStatistics() *models.Statistics {
+	//TODO implement me
+	panic("implement me")
+}
 
+func (s *storage) Auth(req *models.User) (int, error) {
 	err := s.conn.Open()
 	if err != nil {
 		return 0, err
@@ -65,22 +64,18 @@ func (s *storage) Auth(req *models.AuthRequest) (int, error) {
 	}
 
 	s.ids++
-	user := converters.ApiAuthModelToServiceUserModel(s.ids, *req)
-	s.db[s.ids] = user
+	//добавляем юзеру айди
+	req.ID = s.ids
 
-	s.statistics.GetUserCounts++
+	// добавляем в бд нового юзера
+	s.db[s.ids] = req
 
-	log.Println(s.db)
-	log.Printf("user %v is added: %v", s.ids, user)
+	log.Printf("user %v is added: %v", s.ids, req)
 
 	return s.ids, nil
 }
 
 func (s *storage) UpdateUser(id int, req *models.UserRequest) error {
-	if req == nil {
-		return errors.New("UserRequest for update is nil")
-	}
-
 	err := s.conn.Open()
 	if err != nil {
 		return err
@@ -92,27 +87,17 @@ func (s *storage) UpdateUser(id int, req *models.UserRequest) error {
 		}
 	}()
 
-	if len(s.db) == 0 {
-		return errors.New("not users in db")
-	}
-
-	_, ok := s.db[id]
+	user, ok := s.db[id]
 	if !ok {
-		return errors.New("not exist user in db")
-	}
+		return errors.New("failed to updating user: user in not found")
+	} else {
+		user.Name = req.Name
+		user.Surname = req.Surname
+		user.Status = req.Status
+		user.Role = req.Role
+		user.UpdateDate = time.Now()
 
-	for _, u := range s.db {
-		if u.ID == id {
-			u.Name = req.Name
-			u.Surname = req.Surname
-			u.Status = req.Status
-			u.Role = req.Role
-			u.UpdateDate = time.Now()
-
-			log.Printf("update user %v", u)
-			s.statistics.UpdateCount++
-			return nil
-		}
+		log.Printf("update user %v", user)
 	}
 
 	return nil
@@ -121,7 +106,7 @@ func (s *storage) UpdateUser(id int, req *models.UserRequest) error {
 func (s *storage) GetUser(id int) (*models.User, error) {
 	err := s.conn.Open()
 	if err != nil {
-		return &models.User{}, err
+		return nil, err
 	}
 	defer func() {
 		errClose := s.conn.Close()
@@ -132,19 +117,17 @@ func (s *storage) GetUser(id int) (*models.User, error) {
 
 	user, ok := s.db[id]
 	if !ok {
-		return &models.User{}, errors.New("user not found")
+		return nil, errors.New("failed to get user: user not found")
 	}
 	log.Printf("get user %v", user)
-
-	s.statistics.GetUserCounts++
 
 	return user, nil
 }
 
-func (s *storage) GetUsers() (*[]models.User, error) {
+func (s *storage) GetUsers() ([]*models.User, error) {
 	err := s.conn.Open()
 	if err != nil {
-		return &[]models.User{}, err
+		return nil, err
 	}
 	defer func() {
 		errClose := s.conn.Close()
@@ -154,18 +137,17 @@ func (s *storage) GetUsers() (*[]models.User, error) {
 	}()
 
 	if len(s.db) == 0 {
-		return &[]models.User{}, errors.New("not users in db")
+		return nil, nil
 	}
 
-	var users []models.User
+	var users []*models.User
 	for _, user := range s.db {
-		users = append(users, *user)
+		users = append(users, user)
 	}
 
-	log.Printf("get users %v", users)
-	s.statistics.GetUsersCounts++
+	log.Printf("get users %+v", users)
 
-	return &users, nil
+	return users, nil
 }
 
 func (s *storage) DeleteUser(id int) error {
@@ -180,26 +162,15 @@ func (s *storage) DeleteUser(id int) error {
 		}
 	}()
 
-	if len(s.db) == 0 {
-		return errors.New("not users in db")
-	}
-
 	_, ok := s.db[id]
 	if !ok {
-		return errors.New("user not found")
+		return errors.New("failed to delete user: user not found")
 	} else {
 		delete(s.db, id)
 		log.Printf("delete user by ID %v", id)
 	}
 
-	s.statistics.DeleteUsersCount++
-
 	return nil
-}
-
-func (s *storage) GetStatistics() *models.Statistics {
-	log.Printf("statistics %v", s.statistics)
-	return &s.statistics
 }
 
 func NewConnect() *Conn {

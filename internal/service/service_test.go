@@ -2,11 +2,13 @@ package service
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/internal/models"
-	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
+	"testing"
+
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"testing"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
+	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 )
 
 func TestService(t *testing.T) {
