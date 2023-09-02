@@ -1,3 +1,0 @@
-linters-settings:
-  goanalysis_metalinter:
-    enabled: false
