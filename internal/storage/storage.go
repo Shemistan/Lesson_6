@@ -5,11 +5,12 @@ import (
 	"log"
 	"time"
 
+	"github.com/Shemistan/Lesson_6/internal/converters"
 	"github.com/Shemistan/Lesson_6/internal/models"
 )
 
 type IStorage interface {
-	Auth(req *models.User) (int, error)
+	Auth(req *models.AuthRequest) (int, error)
 	UpdateUser(id int, req *models.UserRequest) error
 	GetUser(id int) (*models.User, error)
 	GetUsers() ([]*models.User, error)
@@ -42,7 +43,7 @@ func (s *storage) GetStatistics() *models.Statistics {
 	panic("implement me")
 }
 
-func (s *storage) Auth(req *models.User) (int, error) {
+func (s *storage) Auth(req *models.AuthRequest) (int, error) {
 	err := s.conn.Open()
 	if err != nil {
 		return 0, err
@@ -65,10 +66,11 @@ func (s *storage) Auth(req *models.User) (int, error) {
 
 	s.ids++
 	//добавляем юзеру айди
-	req.ID = s.ids
+	user := converters.ApiAuthModelToServiceUserModel(*req)
+	user.ID = s.ids
 
 	// добавляем в бд нового юзера
-	s.db[s.ids] = req
+	s.db[s.ids] = user
 
 	log.Printf("user %v is added: %v", s.ids, req)
 

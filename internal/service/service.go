@@ -8,7 +8,7 @@ import (
 )
 
 type IService interface {
-	Auth(req *models.User) (int, error)
+	Auth(req *models.AuthRequest) (int, error)
 	UpdateUser(id int, req *models.UserRequest) error
 	GetUser(id int) (*models.User, error)
 	GetUsers() ([]*models.User, error)
@@ -28,7 +28,7 @@ type service struct {
 	statistics models.Statistics
 }
 
-func (s *service) Auth(req *models.User) (int, error) {
+func (s *service) Auth(req *models.AuthRequest) (int, error) {
 	res, err := s.repo.Auth(req)
 	if err != nil {
 		return 0, err

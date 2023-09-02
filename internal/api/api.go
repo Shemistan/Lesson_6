@@ -1,7 +1,6 @@
 package api
 
 import (
-	"github.com/Shemistan/Lesson_6/internal/converters"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
 )
@@ -29,9 +28,7 @@ func (a *api) Auth(req *models.AuthRequest) (int, error) {
 		return 0, err
 	}
 
-	user := converters.ApiAuthModelToServiceUserModel(*req)
-
-	res, err := a.serv.Auth(user)
+	res, err := a.serv.Auth(req)
 	if err != nil {
 		return 0, err
 	}

@@ -35,7 +35,7 @@ func (m *MockIStorage) EXPECT() *MockIStorageMockRecorder {
 }
 
 // Auth mocks base method.
-func (m *MockIStorage) Auth(req *models.User) (int, error) {
+func (m *MockIStorage) Auth(req *models.AuthRequest) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Auth", req)
 	ret0, _ := ret[0].(int)

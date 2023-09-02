@@ -7,7 +7,6 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/Shemistan/Lesson_6/internal/models"
 	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 )
 
@@ -24,8 +23,8 @@ func TestService(t *testing.T) {
 	t.Run("request is nil", func(t *testing.T) {
 		storage.EXPECT().Auth(nil).Return(0, errors.New("some error"))
 		storage.EXPECT().UpdateUser(0, nil).Return(errors.New("some error"))
-		storage.EXPECT().GetUser(0).Return(&models.User{}, errors.New("some error"))
-		storage.EXPECT().GetUsers().Return(&[]models.User{}, errors.New("some error"))
+		storage.EXPECT().GetUser(0).Return(nil, errors.New("some error"))
+		storage.EXPECT().GetUsers().Return(nil, errors.New("some error"))
 
 		_, err := serv.Auth(nil)
 		if err == nil {
