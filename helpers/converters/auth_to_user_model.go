@@ -9,7 +9,7 @@ import (
 
 func AuthToUserModel(dto dtos.AuthRequest) models.User {
 	return models.User{
-		Name:     dto.Login,
+		Login:    dto.Login,
 		Password: hashPassword(dto.Password),
 		Status:   models.StatusActive,
 		Role:     models.RoleUser,

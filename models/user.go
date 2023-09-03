@@ -5,7 +5,7 @@ import "time"
 // Statuses
 const (
 	StatusActive  string = "active"
-	StatusDeleted        = "deleted"
+	StatusBlocked        = "blocked"
 )
 
 // Roles

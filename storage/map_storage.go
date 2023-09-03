@@ -45,13 +45,13 @@ func (s *storage) Add(user *models.User) (int, error) {
 		return 0, err
 	}
 
+	defer s.closeConn()
+
 	if s.isUserExists(user.Login) {
 		return 0, errors.New(
 			fmt.Sprintf("user with this login already exists %s", user.Login),
 		)
 	}
-
-	defer s.closeConn()
 
 	s.ids++
 	user.Id = s.ids
@@ -88,7 +88,7 @@ func (s *storage) GetUsers() ([]*models.User, error) {
 
 	defer s.closeConn()
 
-	users := make([]*models.User, len(s.db))
+	users := make([]*models.User, 0, len(s.db))
 
 	for _, value := range s.db {
 		users = append(users, value)
