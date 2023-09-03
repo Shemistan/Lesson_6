@@ -80,6 +80,23 @@ func (s *storage) Get(userId int) (*models.User, error) {
 	return user, nil
 }
 
+func (s *storage) GetUsers() ([]*models.User, error) {
+	err := s.conn.Open()
+	if err != nil {
+		return nil, err
+	}
+
+	defer s.closeConn()
+
+	users := make([]*models.User, len(s.db))
+
+	for _, value := range s.db {
+		users = append(users, value)
+	}
+
+	return users, nil
+}
+
 func (s *storage) Update(userId int, user *models.User) error {
 	if user == nil {
 		return errors.New("update data is nil")
