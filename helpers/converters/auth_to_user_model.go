@@ -4,7 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"github.com/Shemistan/Lesson_6/api/dtos"
-	"github.com/Shemistan/Lesson_6/storage/models"
+	"github.com/Shemistan/Lesson_6/models"
 )
 
 func AuthToUserModel(dto dtos.AuthRequest) models.User {

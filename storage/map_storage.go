@@ -3,20 +3,20 @@ package storage
 import (
 	"errors"
 	"fmt"
-	"github.com/Shemistan/Lesson_6/storage/models"
+	models2 "github.com/Shemistan/Lesson_6/models"
 	"log"
 	"time"
 )
 
 func New(host string, port, ttl int, conn IConn) IStorage {
 	return &storage{
-		Statistic: models.Statistic{
+		Statistic: models2.Statistic{
 			DeletedUsersCount: 0,
 			UpdateCount:       0,
 			GetUserCount:      0,
 			GetUsersCount:     0,
 		},
-		db:   make(map[int]*models.User),
+		db:   make(map[int]*models2.User),
 		ids:  0,
 		Host: host,
 		Port: port,
@@ -26,8 +26,8 @@ func New(host string, port, ttl int, conn IConn) IStorage {
 }
 
 type storage struct {
-	Statistic models.Statistic
-	db        map[int]*models.User
+	Statistic models2.Statistic
+	db        map[int]*models2.User
 	ids       int
 	Host      string
 	Port      int
@@ -35,7 +35,7 @@ type storage struct {
 	conn      IConn
 }
 
-func (s *storage) Add(user *models.User) (int, error) {
+func (s *storage) Add(user *models2.User) (int, error) {
 	if user == nil {
 		return 0, errors.New("user is nil")
 	}
@@ -62,7 +62,7 @@ func (s *storage) Add(user *models.User) (int, error) {
 	return s.ids, nil
 }
 
-func (s *storage) Get(userId int) (*models.User, error) {
+func (s *storage) Get(userId int) (*models2.User, error) {
 	err := s.conn.Open()
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (s *storage) Get(userId int) (*models.User, error) {
 	return user, nil
 }
 
-func (s *storage) GetUsers() ([]*models.User, error) {
+func (s *storage) GetUsers() ([]*models2.User, error) {
 	err := s.conn.Open()
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (s *storage) GetUsers() ([]*models.User, error) {
 
 	defer s.closeConn()
 
-	users := make([]*models.User, len(s.db))
+	users := make([]*models2.User, len(s.db))
 
 	for _, value := range s.db {
 		users = append(users, value)
@@ -97,7 +97,7 @@ func (s *storage) GetUsers() ([]*models.User, error) {
 	return users, nil
 }
 
-func (s *storage) Update(userId int, user *models.User) error {
+func (s *storage) Update(userId int, user *models2.User) error {
 	if user == nil {
 		return errors.New("update data is nil")
 	}
@@ -144,11 +144,11 @@ func (s *storage) Delete(userId int) error {
 	return nil
 }
 
-func (s *storage) GetStatistics() *models.Statistic {
+func (s *storage) GetStatistics() *models2.Statistic {
 	return &s.Statistic
 }
 
-func (s *storage) getUserById(id int) (*models.User, error) {
+func (s *storage) getUserById(id int) (*models2.User, error) {
 	user, ok := s.db[id]
 
 	if !ok {

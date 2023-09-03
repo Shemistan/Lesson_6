@@ -2,7 +2,7 @@ package converters
 
 import (
 	"github.com/Shemistan/Lesson_6/api/dtos"
-	"github.com/Shemistan/Lesson_6/storage/models"
+	"github.com/Shemistan/Lesson_6/models"
 )
 
 func UserDtoToModel(dto dtos.UserDto) models.User {

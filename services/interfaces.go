@@ -1,14 +1,14 @@
 package services
 
 import (
-	"github.com/Shemistan/Lesson_6/storage/models"
+	models2 "github.com/Shemistan/Lesson_6/models"
 )
 
 type IService interface {
-	Auth(user *models.User) (int, error)
-	UpdateUser(id int, user *models.User) error
-	GetUser(id int) (*models.User, error)
-	GetUsers() ([]*models.User, error)
+	Auth(user *models2.User) (int, error)
+	UpdateUser(id int, user *models2.User) error
+	GetUser(id int) (*models2.User, error)
+	GetUsers() ([]*models2.User, error)
 	DeleteUser(id int) error
-	GetStatistics() *models.Statistic
+	GetStatistics() *models2.Statistic
 }
