@@ -1,7 +1,6 @@
 package services
 
 import (
-	"github.com/Shemistan/Lesson_6/api/dtos"
 	"github.com/Shemistan/Lesson_6/storage"
 	"github.com/Shemistan/Lesson_6/storage/models"
 )
@@ -16,31 +15,36 @@ func New(repo storage.IStorage) IService {
 	}
 }
 
-func (s service) Auth(req dtos.AuthRequest) (int, error) {
+func (s service) Auth(user *models.User) (int, error) {
+	id, err := s.repo.Add(user)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+func (s service) UpdateUser(id int, user *models.User) error {
+
+	panic("implement me")
+}
+
+func (s service) GetUser(id int) (models.User, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s service) UpdateUser(req dtos.UpdateUserRequest) error {
+func (s service) GetUsers() ([]models.User, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s service) GetUser(req dtos.GetUserRequest) (models.User, error) {
+func (s service) DeleteUser(id int) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s service) GetUsers(req dtos.GetUsersRequest) ([]models.User, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (s service) DeleteUser(req dtos.DeleteUserRequest) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (s service) GetStatistics(req dtos.GetStatisticsRequest) models.Statistic {
+func (s service) GetStatistics() models.Statistic {
 	return s.repo.GetStatistics()
 }
