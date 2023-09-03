@@ -54,6 +54,7 @@ func (s *storage) Add(user *models.User) (int, error) {
 	defer s.closeConn()
 
 	s.ids++
+	user.Id = s.ids
 	s.db[s.ids] = user
 
 	log.Printf("user %v is added: %v", s.ids, user)
@@ -124,6 +125,10 @@ func (s *storage) Delete(userId int) error {
 	log.Printf("delete user %v", user)
 
 	return nil
+}
+
+func (s *storage) GetStatistics() *models.Statistic {
+	return &s.Statistic
 }
 
 func (s *storage) getUserById(id int) (*models.User, error) {
