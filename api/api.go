@@ -1,12 +1,18 @@
 package api
 
-import "github.com/Shemistan/Lesson_6/api/dtos"
+import (
+	"github.com/Shemistan/Lesson_6/api/dtos"
+	"github.com/Shemistan/Lesson_6/services"
+)
 
 type api struct {
+	service services.IService
 }
 
-func New() IApi {
-	return &api{}
+func New(service services.IService) IApi {
+	return &api{
+		service: service,
+	}
 }
 func (a api) Auth(req dtos.AuthRequest) (dtos.AuthResponse, error) {
 	//TODO implement me
