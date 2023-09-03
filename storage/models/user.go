@@ -18,6 +18,7 @@ const (
 type User struct {
 	Id               int
 	Login            string
+	Password         string
 	Name             string
 	Surname          string
 	Status           string
