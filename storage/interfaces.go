@@ -9,6 +9,7 @@ type IStorage interface {
 	Get(userId int) (*models.User, error)
 	Update(userId int, user *models.User) error
 	Delete(userID int) error
+	GetStatistics() models.Statistic
 }
 
 type IConn interface {

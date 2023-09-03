@@ -15,12 +15,12 @@ func New(repo storage.IStorage) IService {
 	}
 }
 
-func (s service) Auth(req dtos.AuthRequest) (dtos.AuthResponse, error) {
+func (s service) Auth(req dtos.AuthRequest) (int, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s service) UpdateUser(req dtos.UpdateUserRequest) (dtos.UpdateUserResponse, error) {
+func (s service) UpdateUser(req dtos.UpdateUserRequest) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -40,7 +40,13 @@ func (s service) DeleteUser(req dtos.DeleteUserRequest) error {
 	panic("implement me")
 }
 
-func (s service) GetStatistics(req dtos.GetStatisticsRequest) (dtos.GetStatisticsResponse, error) {
-	//TODO implement me
-	panic("implement me")
+func (s service) GetStatistics(req dtos.GetStatisticsRequest) dtos.GetStatisticsResponse {
+	statistic := s.repo.GetStatistics()
+
+	return dtos.GetStatisticsResponse{
+		GetUsersCount:     statistic.GetUsersCount,
+		GetUserCount:      statistic.GetUserCount,
+		DeletedUsersCount: statistic.DeletedUsersCount,
+		UpdateCount:       statistic.UpdateCount,
+	}
 }
