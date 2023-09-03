@@ -10,6 +10,12 @@ import (
 
 func New(host string, port, ttl int, conn IConn) IStorage {
 	return &storage{
+		Statistic: models.Statistic{
+			DeletedUsersCount: 0,
+			UpdateCount:       0,
+			GetUserCount:      0,
+			GetUsersCount:     0,
+		},
 		db:   make(map[int]*models.User),
 		ids:  0,
 		Host: host,
@@ -20,12 +26,13 @@ func New(host string, port, ttl int, conn IConn) IStorage {
 }
 
 type storage struct {
-	db   map[int]*models.User
-	ids  int
-	Host string
-	Port int
-	TLL  int
-	conn IConn
+	Statistic models.Statistic
+	db        map[int]*models.User
+	ids       int
+	Host      string
+	Port      int
+	TLL       int
+	conn      IConn
 }
 
 func (s *storage) Add(user *models.User) (int, error) {
