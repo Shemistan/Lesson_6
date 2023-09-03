@@ -1,9 +1,6 @@
 package dtos
 
-type GetStatisticsRequest struct {
-}
-
-type GetStatisticsResponse struct {
+type Statistics struct {
 	DeletedUsersCount int
 	UpdateCount       int
 	GetUserCount      int

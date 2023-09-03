@@ -1,16 +1,16 @@
 package storage
 
 import (
-	models2 "github.com/Shemistan/Lesson_6/models"
+	"github.com/Shemistan/Lesson_6/models"
 )
 
 type IStorage interface {
-	Add(user *models2.User) (int, error)
-	Get(userId int) (*models2.User, error)
-	GetUsers() ([]*models2.User, error)
-	Update(userId int, user *models2.User) error
+	Add(user *models.User) (int, error)
+	Get(userId int) (*models.User, error)
+	GetUsers() ([]*models.User, error)
+	Update(userId int, user *models.User) error
 	Delete(userID int) error
-	GetStatistics() *models2.Statistic
+	GetStatistics() *models.Statistic
 }
 
 type IConn interface {

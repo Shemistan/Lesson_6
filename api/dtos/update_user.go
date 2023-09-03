@@ -1,10 +1,10 @@
 package dtos
 
 type UpdateUserRequest struct {
-	id   int
-	user UserDto
+	Id   int
+	User UserDto
 }
 
 type UpdateUserResponse struct {
-	success bool
+	Success bool
 }
