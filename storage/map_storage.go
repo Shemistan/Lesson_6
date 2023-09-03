@@ -100,9 +100,23 @@ func (s *storage) Update(userId int, user *models.User) error {
 	return nil
 }
 
-func (s *storage) Delete(userID int) error {
-	//TODO implement me
-	panic("implement me")
+func (s *storage) Delete(userId int) error {
+	err := s.conn.Open()
+	if err != nil {
+		return err
+	}
+
+	defer s.closeConn()
+
+	user, err := s.getUserById(userId)
+	if err != nil {
+		return err
+	}
+
+	delete(s.db, userId)
+	log.Printf("delete user %v", user)
+
+	return nil
 }
 
 func (s *storage) getUserById(id int) (*models.User, error) {
