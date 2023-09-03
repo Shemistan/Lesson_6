@@ -2,6 +2,19 @@ package models
 
 import "time"
 
+// Statuses
+const (
+	StatusActive  string = "active"
+	StatusDeleted        = "deleted"
+)
+
+// Roles
+const (
+	RoleAdmin     string = "Admin"
+	RoleModerator string = "Moderator"
+	RoleUser      string = "User"
+)
+
 type User struct {
 	Id               int
 	Login            string
