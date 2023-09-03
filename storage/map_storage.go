@@ -1,6 +1,8 @@
 package storage
 
-import "github.com/Shemistan/Lesson_6/models"
+import (
+	"github.com/Shemistan/Lesson_6/storage/models"
+)
 
 func New(host string, port, ttl int, conn *IConn) IStorage {
 	return &storage{
