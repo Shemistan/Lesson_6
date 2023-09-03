@@ -2,19 +2,25 @@ package storage
 
 import "errors"
 
-type Conn struct {
+type conn struct {
 	val bool
 }
 
-func (c *Conn) Open() error {
+func NewConn() IConn {
+	return &conn{
+		val: false,
+	}
+}
+
+func (c *conn) Open() error {
 	if c.val {
-		return errors.New("failed to open Conn")
+		return errors.New("failed to open conn")
 	}
 	c.val = true
 	return nil
 }
 
-func (c *Conn) Close() error {
+func (c *conn) Close() error {
 	if !c.val {
 		return errors.New("failed to close")
 	}
@@ -22,6 +28,6 @@ func (c *Conn) Close() error {
 	return nil
 }
 
-func (c *Conn) IsClose() bool {
+func (c *conn) IsClose() bool {
 	return !c.val
 }
