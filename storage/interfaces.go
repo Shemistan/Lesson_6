@@ -7,7 +7,7 @@ import (
 type IStorage interface {
 	Add(user *models.User) (int, error)
 	Get(userId int) (*models.User, error)
-	GetUsers() (*[]models.User, error)
+	GetUsers() ([]*models.User, error)
 	Update(userId int, user *models.User) error
 	Delete(userID int) error
 	GetStatistics() *models.Statistic
