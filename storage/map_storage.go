@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/Shemistan/Lesson_6/storage/models"
 	"log"
+	"time"
 )
 
 func New(host string, port, ttl int, conn IConn) IStorage {
@@ -61,12 +62,9 @@ func (s *storage) Get(userId int) (*models.User, error) {
 
 	defer s.closeConn()
 
-	user, ok := s.db[userId]
-
-	if !ok {
-		return nil, errors.New(
-			fmt.Sprintf("user with this id not exists %d", user.Id),
-		)
+	user, err := s.getUserById(userId)
+	if err != nil {
+		return nil, err
 	}
 
 	log.Printf("get user %v", user)
@@ -75,13 +73,48 @@ func (s *storage) Get(userId int) (*models.User, error) {
 }
 
 func (s *storage) Update(userId int, user *models.User) error {
-	//TODO implement me
-	panic("implement me")
+	if user == nil {
+		return errors.New("update data is nil")
+	}
+
+	err := s.conn.Open()
+	if err != nil {
+		return err
+	}
+
+	defer s.closeConn()
+
+	dbUser, err := s.getUserById(userId)
+	if err != nil {
+		return err
+	}
+
+	dbUser.Name = user.Name
+	dbUser.Surname = user.Surname
+	dbUser.Status = user.Status
+	dbUser.Role = user.Role
+	dbUser.UpdateDate = time.Now()
+
+	log.Printf("update user %v", user)
+
+	return nil
 }
 
 func (s *storage) Delete(userID int) error {
 	//TODO implement me
 	panic("implement me")
+}
+
+func (s *storage) getUserById(id int) (*models.User, error) {
+	user, ok := s.db[id]
+
+	if !ok {
+		return nil, errors.New(
+			fmt.Sprintf("user with this id not exists %d", user.Id),
+		)
+	}
+
+	return user, nil
 }
 
 func (s *storage) isUserExists(login string) bool {
