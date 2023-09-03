@@ -15,7 +15,7 @@ func New(repo storage.IStorage) IService {
 	}
 }
 
-func (s service) Auth(user *models.User) (int, error) {
+func (s *service) Auth(user *models.User) (int, error) {
 	id, err := s.repo.Add(user)
 
 	if err != nil {
@@ -25,26 +25,42 @@ func (s service) Auth(user *models.User) (int, error) {
 	return id, nil
 }
 
-func (s service) UpdateUser(id int, user *models.User) error {
+func (s *service) UpdateUser(id int, user *models.User) error {
+	s.repo.GetStatistics().UpdateCount++
 
-	panic("implement me")
+	return s.repo.Update(id, user)
 }
 
-func (s service) GetUser(id int) (models.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *service) GetUser(id int) (*models.User, error) {
+	s.repo.GetStatistics().GetUserCount++
+
+	user, err := s.repo.Get(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
-func (s service) GetUsers() ([]models.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *service) GetUsers() ([]*models.User, error) {
+	s.repo.GetStatistics().GetUsersCount++
+
+	users, err := s.repo.GetUsers()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }
 
-func (s service) DeleteUser(id int) error {
-	//TODO implement me
-	panic("implement me")
+func (s *service) DeleteUser(id int) error {
+	s.repo.GetStatistics().DeletedUsersCount++
+
+	return s.repo.Delete(id)
 }
 
-func (s service) GetStatistics() models.Statistic {
+func (s *service) GetStatistics() *models.Statistic {
 	return s.repo.GetStatistics()
 }
