@@ -26,12 +26,8 @@ func NewIStorage() IStorage{
 	return &SStorage{idg: 0,db: make(map[int32]*models.SUser)}
 }
 
-func (s *SStorage) GetMap() (map1 map[int32]*models.SUser){
-	// fmt.Println("ALL ->", map1)
-	return map1
-	// for key, value := range s.db{
-	// 	fmt.Println("Key: ", key, "Value: ", value)
-	// } 
+func (s *SStorage) GetMap() (map[int32]*models.SUser){
+	return s.db
 }
 
 func (s *SStorage) GetAll() {
@@ -53,7 +49,7 @@ func (s *SStorage) Add(user *models.SUser)(int32,error){
 	}else{
 		// idg := id.GetId()
 		s.db[s.idg]=user
-		fmt.Println("idg from storage: -->", s.idg)
+		// fmt.Println("idg from storage: -->", s.idg)
 		t := time.Now()
 		user.RegistrationDate = t.Format("2006-01-02 15:04:05")
 		// idg := id.IdGenerate
@@ -65,7 +61,7 @@ func (s *SStorage) Add(user *models.SUser)(int32,error){
 
 func (s *SStorage) Get(userId int32) (*models.SUser, error){
 	if value, ok := s.db[userId]; ok {
-		fmt.Println(value, "ot Get")
+		// fmt.Println(value, "ot Get")
 		return value, nil
 	}
 	return nil, errors.New("Error User ID not Found")

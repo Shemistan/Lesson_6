@@ -91,6 +91,7 @@ func(s *SService) Auth(auth *models.SAuth)(int32,error){
 	s.GetAuthClick++
 	for key, value := range s.repo.GetMap(){
 		if auth.Login == value.Login {
+			// fmt.Println(auth.Login,"KEYY-->", value.Login ,"VALUE")
 			if auth.PasswordHash == value.PasswordHash {
 				return key, nil
 			}else{

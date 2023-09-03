@@ -11,9 +11,13 @@ type SUser struct {
 	UpdateDate       string
 }
 
-type Sjson struct{
-	SUser
-}
+// type JUser struct{
+// 	SUser
+// }
+
+// type JAuth struct{
+// 	SAuth
+// }
 
 type IdGenerate struct {
 	IdGenerate int32
