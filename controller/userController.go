@@ -22,10 +22,10 @@ func NewUserController(userService *service.UserService) *UserController {
 	}
 }
 
-func (uc *UserController) Auth(login string, password string) (int32, error) {
+func (uc *UserController) Auth(login string, password string) (uint32, error) {
 
 	if login == "" || password == "" {
-		return -1, errors.New("Empty fields not excepted")
+		return 0, errors.New("Empty fields not excepted")
 	}
 
 	result, _ := uc.userService.Auth(login, password)
@@ -38,7 +38,7 @@ func (uc *UserController) Auth(login string, password string) (int32, error) {
 		uc.userService.Add(name, surname, login, password)
 	}
 
-	return result, nil
+	return uint32(result), nil
 }
 
 func (uc *UserController) Get(id uint32) (model.User, error) {
