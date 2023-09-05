@@ -15,7 +15,8 @@ type IService interface {
 	GetUsers()
 	DeleteUser(idGenerate int32) error
 	GetStatistics()
-	Add(user *models.SUser, id *models.IdGenerate)(bool,error)
+	GetMap()(map[int32]*models.SUser)
+	Add(user *models.SUser)(bool,error)
 }
 
 type SService struct {
@@ -30,6 +31,10 @@ type SService struct {
 
 func NewIService(repo storage.IStorage) IService{
 	return &SService{repo: repo, DeleteUsersCount: 0,UpdateCount: 0,GetUserCount: 0,GetUsersCount: 0,GetAuthClick: 0,GetAddClick: 0}
+}
+
+func(s *SService)GetMap()(map[int32]*models.SUser){
+	return s.repo.GetMap()
 }
 
 func (stat *SService) GetStatistics(){
@@ -75,7 +80,7 @@ func (s *SService) UpdateUser(idGenerate int32, update *models.SUser)(bool, erro
 	return true, nil
 }
 
-func(s *SService) Add(user *models.SUser, id *models.IdGenerate)(bool,error){
+func(s *SService) Add(user *models.SUser)(bool,error){
 	// id := *&models.IdGenerate{}
 	// stat := *&models.StatsUser{}
 	s.GetAddClick++

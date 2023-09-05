@@ -60,6 +60,7 @@ func (s *SStorage) Add(user *models.SUser)(int32,error){
 }
 
 func (s *SStorage) Get(userId int32) (*models.SUser, error){
+
 	if value, ok := s.db[userId]; ok {
 		// fmt.Println(value, "ot Get")
 		return value, nil
@@ -68,6 +69,13 @@ func (s *SStorage) Get(userId int32) (*models.SUser, error){
 }
 
 func (s *SStorage) Update(userId int32, user *models.SUser) error{
+	if user == nil {
+		return errors.New("Error User not found")
+	}
+	if _, ok := s.db[userId]; !ok {
+		return errors.New("Error USerID not found")
+	}
+
 	for key, _ := range s.db {
 		if key == userId {
 			s.db[userId] = user
