@@ -34,13 +34,13 @@ func main() {
 	id4, _ := service.Auth(&auth)
 	value, _ := service.GetUser(id4)
 	_,_ =id4, value
-
-	// API
 	
+	// API
+
 	reqAuth := `{"Login":"qwerty","PasswordHash":"123"}`   //json to service_struct
 	apigetIDJSON,_ := api.Auth(reqAuth)
-	reqUpdate := `{"Login":"testAddFromAPI","PasswordHash":"123","Name":"anvar","Surname":"nabijonov","Status":"active","Role":"active"}`
-	boo1, _ := api.Add(reqUpdate)
+	reqAdd := `{"Login":"testAddFromAPI","PasswordHash":"123","Name":"anvar","Surname":"nabijonov","Status":"active","Role":"active"}`
+	boo1, _ := api.Add(reqAdd)
 	_ = boo1
 	// fmt.Println(apigetIDJSON, "POLZOVOTEL")
 	reqGetUser := api.GetUser(apigetIDJSON)
