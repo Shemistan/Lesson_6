@@ -7,17 +7,16 @@ import (
 	"github.com/Shemistan/Lesson_6/internal/convert"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
-	// "golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 type IApi interface {
 	Auth(s string)(string,error)
 	Add(s string)(bool,error)
 	Update(id int32, str string)error
-	GetUser(id string)(user *models.SUser, str string)
+	GetUser(id string)(string)
 	GetUsers()
-	// DeleteUser(id int32)error
-	// GetStatistics()
+	DeleteUser(id string)error
+	GetStatistics()
 }
 
 type SApi struct {
@@ -28,6 +27,21 @@ func NewIApi(repo service.IService) IApi{
 	return &SApi{repo: repo}
 }
 
+func (s *SApi)GetStatistics(){
+	s.repo.GetStatistics()
+}
+
+func(s *SApi)DeleteUser(idjson string)error{
+	id :=models.IdGenerate{}
+	id,_ = convert.ApiIdConvertToService(idjson)
+	idg := id.Id
+	err := s.repo.DeleteUser(idg)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return nil
+}
+
 func(s *SApi)GetUsers(){
 	mapa := s.repo.GetMap()
 	for _, value := range mapa{
@@ -36,14 +50,14 @@ func(s *SApi)GetUsers(){
 	}
 }
 
-func(s *SApi)GetUser(idjson string)(user *models.SUser, str string){
+func(s *SApi)GetUser(idjson string)(string){
 	// update1 := models.SUser{}
 	id :=models.IdGenerate{}
 	id,_ = convert.ApiIdConvertToService(idjson)
 	idg := id.Id
-	user, _  = s.repo.GetUser(idg)
-	str = convert.ApiUserConvertFromoService(*user)
-	return user, str
+	user1, _  := s.repo.GetUser(idg)
+	str := convert.ApiUserConvertFromoService(*user1)
+	return str
 }
 
 func(s *SApi)Update(id int32,str string)error{

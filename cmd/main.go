@@ -28,26 +28,28 @@ func main() {
 	id1, _ := db.Add(&user1)
 	id2, _ := db.Add(&user2)
 	id3,_ :=service.Add(&user3)
-	fmt.Println(id1)
-	fmt.Println(id2)
-	fmt.Println(id3)
+	_ = id1
+	_ = id2
+	_ = id3
 	id4, _ := service.Auth(&auth)
 	value, _ := service.GetUser(id4)
 	_,_ =id4, value
-	// fmt.Println(id4, "id polzova", value)
-	// service.GetUsers()
-	// service.GetStatistics()
-	// service.GetUsers()
 
-	str1 := `{"Login":"qwerty","PasswordHash":"123"}`   //json to service_struct
-	apiIDUser,_ := api.Auth(str1)
-	// fmt.Println(apiIDUser, "POluchilos")
-	str2 := `{"Login":"testAddFromAPI","PasswordHash":"123","Name":"anvar","Surname":"nabijonov","Status":"active","Role":"active"}`
-	boo1, _ := api.Add(str2)
+	// API
+	
+	reqAuth := `{"Login":"qwerty","PasswordHash":"123"}`   //json to service_struct
+	apigetIDJSON,_ := api.Auth(reqAuth)
+	reqUpdate := `{"Login":"testAddFromAPI","PasswordHash":"123","Name":"anvar","Surname":"nabijonov","Status":"active","Role":"active"}`
+	boo1, _ := api.Add(reqUpdate)
 	_ = boo1
-	fmt.Println(apiIDUser, "POLZOVOTEL")
-	_, str3 := api.GetUser(apiIDUser)
-	fmt.Println("getting User From API", str3)
-	api.GetUsers()
+	// fmt.Println(apigetIDJSON, "POLZOVOTEL")
+	reqGetUser := api.GetUser(apigetIDJSON)
+	fmt.Println("getting User From API", reqGetUser)
+	err := api.DeleteUser(apigetIDJSON)
+	if err == nil {
+		api.GetUsers()
+	}
+	fmt.Println()
+	api.GetStatistics()
 	
 }

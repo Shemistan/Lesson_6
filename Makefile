@@ -1,5 +1,5 @@
 mock-gen:
-	mockgen -source=internal/service/service.go -destination=internal/service/mocks/mock_service.go
+	mockgen -source=internal/storage/storage.go -destination=internal/storage/mocks/mock_storage.go
 
 test-run:
 	go test -v ./...
