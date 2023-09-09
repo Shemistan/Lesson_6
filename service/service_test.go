@@ -36,7 +36,7 @@ func TestService(t *testing.T) {
 	})
 
 	t.Run("Update", func(t *testing.T) {
-		err := service.Update(0, model.User{
+		err := service.Update(0, &model.User{
 			Name:             "test1",
 			Surname:          "test2",
 			Login:            "test",
@@ -50,7 +50,7 @@ func TestService(t *testing.T) {
 	})
 
 	t.Run("Update", func(t *testing.T) {
-		err := service.Update(2, model.User{
+		err := service.Update(2, &model.User{
 			Name:             "test1",
 			Surname:          "test2",
 			Login:            "test",

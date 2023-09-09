@@ -19,12 +19,8 @@ type IService interface {
 }
 
 type UserService struct {
-	storage         *storage.Storage
-	addCounter      uint32
-	updateCounter   uint32
-	deleteCounter   uint32
-	getUserCounter  uint32
-	getUsersCounter uint32
+	storage    *storage.Storage
+	statistics model.Stats
 }
 
 func NewUserService(storage *storage.Storage) *UserService {
@@ -34,12 +30,12 @@ func NewUserService(storage *storage.Storage) *UserService {
 }
 
 func (us *UserService) Add(name, surname, login, password string) (uint32, error) {
-	us.addCounter++
+	us.statistics.AddCounter++
 
 	f := fnv.New32a()
 	f.Write([]byte(password))
 
-	return us.storage.Add(model.User{
+	return us.storage.Add(&model.User{
 		Name:             name,
 		Surname:          surname,
 		Login:            login,
@@ -51,33 +47,44 @@ func (us *UserService) Add(name, surname, login, password string) (uint32, error
 	})
 }
 
-func (us *UserService) Update(id uint32, user model.User) error {
-	us.updateCounter++
+func (us *UserService) Update(id uint32, user *model.User) error {
+	us.statistics.UpdateCounter++
 
 	f := fnv.New32a()
 	f.Write([]byte(strconv.Itoa(int(user.HashPassword))))
 	user.HashPassword = f.Sum32()
 
+	user.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
+
 	return us.storage.Update(id, user)
 }
 
 func (us *UserService) Delete(id uint32) error {
-	us.deleteCounter++
+	us.statistics.DeleteCounter++
 	return us.storage.Delete(id)
 }
 
-func (us *UserService) Get(id uint32) (model.User, error) {
-	us.getUserCounter++
+func (us *UserService) Get(id uint32) (*model.User, error) {
+	us.statistics.GetUserCounter++
 	return us.storage.Get(id)
 }
 
-func (us *UserService) GetAll() ([]model.User, error) {
-	us.getUsersCounter++
+func (us *UserService) GetAll() ([]*model.User, error) {
+	us.statistics.GetUsersCounter++
 	return us.storage.GetAll()
 }
 
-func (us *UserService) GetStatistics() []uint32 {
-	return []uint32{us.deleteCounter, us.updateCounter, us.getUserCounter, us.getUsersCounter}
+func (us *UserService) GetStatistics() map[string]uint32 {
+	var outStats map[string]uint32
+	outStats = make(map[string]uint32)
+
+	outStats["AddCounter"] = us.statistics.AddCounter
+	outStats["UpdateCounter"] = us.statistics.UpdateCounter
+	outStats["DeleteCounter"] = us.statistics.DeleteCounter
+	outStats["GetUserCounter"] = us.statistics.GetUserCounter
+	outStats["GetUsersCounter"] = us.statistics.GetUsersCounter
+
+	return outStats
 }
 
 func (us *UserService) Auth(login string, password string) (int32, error) {

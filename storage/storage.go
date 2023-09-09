@@ -15,29 +15,29 @@ type IStorage interface {
 }
 
 type Storage struct {
-	db map[uint32]model.User
+	db map[uint32]*model.User
 }
 
 func NewStorage() *Storage {
 	return &Storage{
-		db: make(map[uint32]model.User),
+		db: make(map[uint32]*model.User),
 	}
 }
 
-func (storage *Storage) Add(user model.User) (uint32, error) {
+func (storage *Storage) Add(user *model.User) (uint32, error) {
 	storage.db[(uint32)(len(storage.db))] = user
 	return (uint32)(len(storage.db)) - 1, nil
 }
 
-func (storage *Storage) Get(id uint32) (model.User, error) {
+func (storage *Storage) Get(id uint32) (*model.User, error) {
 	if id > (uint32)(len(storage.db))-1 {
-		return model.User{}, errors.New("User not found")
+		return nil, errors.New("User not found")
 	}
 	return storage.db[id], nil
 }
 
-func (storage *Storage) GetAll() ([]model.User, error) {
-	var user []model.User
+func (storage *Storage) GetAll() ([]*model.User, error) {
+	var user []*model.User
 	for _, value := range storage.db {
 		user = append(user, value)
 	}
@@ -52,11 +52,11 @@ func (storage *Storage) Delete(id uint32) error {
 	return nil
 }
 
-func (storage *Storage) Update(id uint32, user model.User) error {
+func (storage *Storage) Update(id uint32, user *model.User) error {
 	if int(id) > len(storage.db)-1 {
 		return errors.New("User not found")
 	}
-	print(len(storage.db))
+	user.RegistrationDate = storage.db[id].RegistrationDate
 	storage.db[id] = user
 	return nil
 }
