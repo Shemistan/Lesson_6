@@ -53,7 +53,7 @@ func TestStorage(t *testing.T) {
 
 	t.Run("Get", func(t *testing.T) {
 		result, _ := st.Get(1)
-		assert.Equal(t, model.User{
+		assert.Equal(t, &model.User{
 			Name:             "test1",
 			Surname:          "test1",
 			Login:            "test1",

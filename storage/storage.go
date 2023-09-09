@@ -30,7 +30,7 @@ func (storage *Storage) Add(user *model.User) (uint32, error) {
 }
 
 func (storage *Storage) Get(id uint32) (*model.User, error) {
-	if id > (uint32)(len(storage.db))-1 {
+	if len(storage.db) > 0 && id > (uint32)(len(storage.db))-1 {
 		return nil, errors.New("User not found")
 	}
 	return storage.db[id], nil

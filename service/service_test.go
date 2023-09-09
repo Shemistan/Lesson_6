@@ -18,8 +18,6 @@ func TestService(t *testing.T) {
 		assert.Equal(t, uint32(0), result)
 	})
 
-	//service.Add("test1", "test1", "test23", "123")
-
 	t.Run("Get", func(t *testing.T) {
 		_, err := service.Get(1)
 		assert.Equal(t, errors.New("User not found"), err)
