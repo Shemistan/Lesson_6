@@ -42,7 +42,7 @@ func TestStorage(t *testing.T) {
 	port := 8080
 	ttl := 10
 
-	t.Run("NewStorage should return new storage", func(t *testing.T) {
+	t.Run("New should return new storage", func(t *testing.T) {
 
 		storage := New(host, port, ttl, NewConn())
 
@@ -60,7 +60,7 @@ func TestStorage(t *testing.T) {
 			t.Error("err is nil")
 		}
 
-		assert.Equal(t, err, errors.New("user is nil"))
+		assert.Equal(t, errors.New("user is nil"), err)
 	})
 
 	t.Run("Add should return error if user with this login already exists", func(t *testing.T) {
@@ -77,7 +77,7 @@ func TestStorage(t *testing.T) {
 			t.Error("err is nil")
 		}
 
-		assert.Equal(t, err, errors.New("user with this login already exists test"))
+		assert.Equal(t, errors.New("user with this login already exists test"), err)
 	})
 
 	t.Run("Add should return id if storage successful added user", func(t *testing.T) {
@@ -93,7 +93,7 @@ func TestStorage(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, id, 1)
+		assert.Equal(t, 1, id)
 	})
 
 	t.Run("Get should return error if user with provide id not exists", func(t *testing.T) {
@@ -105,7 +105,7 @@ func TestStorage(t *testing.T) {
 			t.Error("err is nil")
 		}
 
-		assert.Equal(t, err, errors.New("user with this id not exists 1"))
+		assert.Equal(t, errors.New("user with this id not exists 1"), err)
 	})
 
 	t.Run("Get should return user if storage successful get user", func(t *testing.T) {
@@ -127,7 +127,7 @@ func TestStorage(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, user.Id, id)
+		assert.Equal(t, id, user.Id)
 		assert.Equal(t, "Denis", user.Login)
 	})
 
@@ -140,7 +140,7 @@ func TestStorage(t *testing.T) {
 			t.Error("err is nil")
 		}
 
-		assert.Equal(t, err, errors.New("user with this id not exists 1"))
+		assert.Equal(t, errors.New("user with this id not exists 1"), err)
 	})
 
 	t.Run("Update should return error if update data is nil", func(t *testing.T) {
@@ -152,7 +152,7 @@ func TestStorage(t *testing.T) {
 			t.Error("err is nil")
 		}
 
-		assert.Equal(t, err, errors.New("update data is nil"))
+		assert.Equal(t, errors.New("update data is nil"), err)
 	})
 
 	t.Run("Update should successfully update user", func(t *testing.T) {
@@ -184,7 +184,7 @@ func TestStorage(t *testing.T) {
 
 		newUser, err := storage.Get(id)
 
-		assert.Equal(t, err, nil)
+		assert.Equal(t, nil, err)
 		assert.Equal(t, "Daniel", newUser.Name)
 		assert.Equal(t, "Lee", newUser.Surname)
 		assert.Equal(t, models.RoleUser, newUser.Role)
