@@ -22,7 +22,7 @@ func TestService(t *testing.T) {
 
 		_, err := serv.Auth(nil)
 
-		assert.Equal(t, err, errors.New("some error"))
+		assert.Equal(t, errors.New("some error"), err)
 	})
 
 	t.Run("Auth should return id if storage successful auth user", func(t *testing.T) {
@@ -36,7 +36,7 @@ func TestService(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, id, mockId)
+		assert.Equal(t, mockId, id)
 	})
 
 	t.Run("UpdateUser should return error if storage return error", func(t *testing.T) {
@@ -47,7 +47,7 @@ func TestService(t *testing.T) {
 
 		err := serv.UpdateUser(1, nil)
 
-		assert.Equal(t, err, errors.New("some error"))
+		assert.Equal(t, errors.New("some error"), err)
 	})
 
 	t.Run("UpdateUser should return nil if storage successful update user", func(t *testing.T) {
@@ -62,7 +62,7 @@ func TestService(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, err, nil)
+		assert.Equal(t, nil, err)
 	})
 
 	//Write test for all methods
@@ -74,7 +74,7 @@ func TestService(t *testing.T) {
 
 		_, err := serv.GetUser(1)
 
-		assert.Equal(t, err, errors.New("some error"))
+		assert.Equal(t, errors.New("some error"), err)
 	})
 
 	t.Run("GetUser should return user if storage successful get user", func(t *testing.T) {
@@ -101,7 +101,7 @@ func TestService(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, *user, mockUser)
+		assert.Equal(t, mockUser, *user)
 	})
 
 	t.Run("GetUsers should return error if storage return error", func(t *testing.T) {
@@ -114,7 +114,7 @@ func TestService(t *testing.T) {
 
 		_, err := serv.GetUsers()
 
-		assert.Equal(t, err, errors.New("some error"))
+		assert.Equal(t, errors.New("some error"), err)
 	})
 
 	t.Run("GetUsers should return users if storage successful get users", func(t *testing.T) {
@@ -131,7 +131,7 @@ func TestService(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, users, mockUsers)
+		assert.Equal(t, mockUsers, users)
 	})
 
 	t.Run("DeleteUser should return error if storage return error", func(t *testing.T) {
@@ -142,7 +142,7 @@ func TestService(t *testing.T) {
 
 		err := serv.DeleteUser(1)
 
-		assert.Equal(t, err, errors.New("some error"))
+		assert.Equal(t, errors.New("some error"), err)
 	})
 
 	t.Run("DeleteUser should return nil if storage successful delete user", func(t *testing.T) {
@@ -157,6 +157,6 @@ func TestService(t *testing.T) {
 			t.Error(err)
 		}
 
-		assert.Equal(t, err, nil)
+		assert.Equal(t, nil, err)
 	})
 }
