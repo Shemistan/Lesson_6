@@ -153,7 +153,7 @@ func (s *storage) getUserById(id int) (*models.User, error) {
 
 	if !ok {
 		return nil, errors.New(
-			fmt.Sprintf("user with this id not exists %d", user.Id),
+			fmt.Sprintf("user with this id not exists %d", id),
 		)
 	}
 

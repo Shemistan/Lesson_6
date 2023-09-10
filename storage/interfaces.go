@@ -1,5 +1,7 @@
 package storage
 
+//go:generate mockgen -destination=../storage/mocks/mock_storage.go -package=mock_storage github.com/Shemistan/Lesson_6/storage IStorage
+
 import (
 	"github.com/Shemistan/Lesson_6/models"
 )
