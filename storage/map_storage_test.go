@@ -72,8 +72,8 @@ func TestStorage(t *testing.T) {
 
 		_, err := storage.Add(user)
 
-		if err == nil {
-			t.Error("err is nil")
+		if err != nil {
+			t.Error(err)
 		}
 
 		_, err = storage.Add(user)
