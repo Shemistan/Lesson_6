@@ -20,7 +20,7 @@ func TestService(t *testing.T) {
 
 	t.Run("Get", func(t *testing.T) {
 		_, err := service.Get(1)
-		assert.Equal(t, errors.New("User not found"), err)
+		assert.Equal(t, errors.New("user not found"), err)
 	})
 
 	t.Run("Get", func(t *testing.T) {
@@ -58,7 +58,7 @@ func TestService(t *testing.T) {
 			RegistrationDate: time.Now().Format("2006-01-02 15:04:05"),
 			UpdateDate:       time.Now().Format("2006-01-02 15:04:05"),
 		})
-		assert.Equal(t, errors.New("User not found"), err)
+		assert.Equal(t, errors.New("user not found"), err)
 	})
 
 	t.Run("Auth", func(t *testing.T) {
@@ -68,7 +68,7 @@ func TestService(t *testing.T) {
 
 	t.Run("Delete", func(t *testing.T) {
 		err := service.Delete(1)
-		assert.Equal(t, errors.New("User not found"), err)
+		assert.Equal(t, errors.New("user not found"), err)
 	})
 
 	t.Run("Delete", func(t *testing.T) {

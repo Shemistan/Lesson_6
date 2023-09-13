@@ -31,7 +31,7 @@ func (storage *Storage) Add(user *model.User) (uint32, error) {
 
 func (storage *Storage) Get(id uint32) (*model.User, error) {
 	if len(storage.db) > 0 && id > (uint32)(len(storage.db))-1 {
-		return nil, errors.New("User not found")
+		return nil, errors.New("user not found")
 	}
 	return storage.db[id], nil
 }
@@ -46,7 +46,7 @@ func (storage *Storage) GetAll() ([]*model.User, error) {
 
 func (storage *Storage) Delete(id uint32) error {
 	if id > (uint32)(len(storage.db))-1 {
-		return errors.New("User not found")
+		return errors.New("user not found")
 	}
 	delete(storage.db, id)
 	return nil
@@ -54,7 +54,7 @@ func (storage *Storage) Delete(id uint32) error {
 
 func (storage *Storage) Update(id uint32, user *model.User) error {
 	if int(id) > len(storage.db)-1 {
-		return errors.New("User not found")
+		return errors.New("user not found")
 	}
 	user.RegistrationDate = storage.db[id].RegistrationDate
 	storage.db[id] = user
@@ -67,5 +67,5 @@ func (storage *Storage) Auth(login string, hashPassword uint32) (int32, error) {
 			return int32(id), nil
 		}
 	}
-	return -1, errors.New("User not found")
+	return -1, errors.New("user not found")
 }
