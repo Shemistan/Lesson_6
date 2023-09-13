@@ -24,6 +24,7 @@ func TestUpdatetUser(t *testing.T) {
 	t.Run("operation not valid Update", func(t *testing.T) {
 		err := NewIStorage().Update(100, nil)
 		assert.Equal(t, err.Error(), "Error User not found")
+		
 	})
 }
 

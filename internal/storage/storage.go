@@ -76,7 +76,7 @@ func (s *SStorage) Update(userId int32, user *models.SUser) error{
 		return errors.New("Error USerID not found")
 	}
 
-	for key, _ := range s.db {
+	for key := range s.db {
 		if key == userId {
 			s.db[userId] = user
 			t := time.Now()
@@ -88,7 +88,7 @@ func (s *SStorage) Update(userId int32, user *models.SUser) error{
 }
 
 func (s *SStorage) Delete(userId int32) error{
-	for key, _ := range s.db {
+	for key := range s.db {
 		if key == userId {
 			delete(s.db, userId)
 			return nil

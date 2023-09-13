@@ -32,8 +32,8 @@ func (s *SApi)GetStatistics(){
 }
 
 func(s *SApi)DeleteUser(idjson string)error{
-	id :=models.IdGenerate{}
-	id,_ = convert.ApiIdConvertToService(idjson)
+	// id :=models.IdGenerate{}
+	id,_ := convert.ApiIdConvertToService(idjson)
 	idg := id.Id
 	err := s.repo.DeleteUser(idg)
 	if err != nil {
@@ -52,8 +52,8 @@ func(s *SApi)GetUsers(){
 
 func(s *SApi)GetUser(idjson string)(string){
 	// update1 := models.SUser{}
-	id :=models.IdGenerate{}
-	id,_ = convert.ApiIdConvertToService(idjson)
+	// id :=models.IdGenerate{}
+	id,_ := convert.ApiIdConvertToService(idjson)
 	idg := id.Id
 	user1, _  := s.repo.GetUser(idg)
 	str := convert.ApiUserConvertFromoService(*user1)
@@ -61,7 +61,7 @@ func(s *SApi)GetUser(idjson string)(string){
 }
 
 func(s *SApi)Update(id int32,str string)error{
-	update1 := models.SUser{}
+	// update1 := models.SUser{}
 	update1, err := convert.ApiUserConvertToService(str)
 	if err != nil {
 		fmt.Println(err)
@@ -76,7 +76,7 @@ func(s *SApi)Update(id int32,str string)error{
 }
 
 func(s *SApi)Add(str string)(bool,error){
-	user := models.SUser{}
+	// user := models.SUser{}
 	user, err := convert.ApiUserConvertToService(str)
 	if err != nil {
 		fmt.Println(err)
@@ -91,10 +91,10 @@ func(s *SApi)Add(str string)(bool,error){
 }
 
 func (s *SApi)Auth(jauth string)(string,error){
-	user1 := models.SAuth{}
+	// user1 := models.SAuth{}
 	// test := convert.ApiAuthConvertFromoService(user)
 	// fmt.Println("JSON-->", test)
-	user1 = convert.ApiAuthConvertToService(jauth)
+	user1 := convert.ApiAuthConvertToService(jauth)
 	var str string
 	if user1.Login != "" {
 		idg, err := s.repo.Auth(&user1)

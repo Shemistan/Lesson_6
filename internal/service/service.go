@@ -49,6 +49,9 @@ func (stat *SService) GetStatistics(){
 
 func (s *SService) DeleteUser(idGenerate int32) error{
 	s.DeleteUsersCount++
+	if idGenerate < 0 {
+		return errors.New("ID cant be < 0")
+	}
 	err := s.repo.Delete(idGenerate)
 	if err != nil{
 		return err
@@ -64,6 +67,9 @@ func (s *SService) GetUsers(){
 
 func (s *SService) GetUser(idGenerate int32) (*models.SUser,error){
 	s.GetUserCount++
+	if idGenerate < 0 {
+		return nil, errors.New("ID cant be < 0")
+	}
 	value, err := s.repo.Get(idGenerate)
 	if err != nil {
 		return nil, errors.New("Error cant get user")
@@ -73,6 +79,9 @@ func (s *SService) GetUser(idGenerate int32) (*models.SUser,error){
 
 func (s *SService) UpdateUser(idGenerate int32, update *models.SUser)(bool, error){
 	s.UpdateCount++
+	if idGenerate < 0 {
+		return false, errors.New("ID cant be < 0")
+	}
 	err := s.repo.Update(idGenerate,update)
 	if err != nil {
 		return false, errors.New(" cant update error") 

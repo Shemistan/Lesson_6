@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 
+	// "github.com/Shemistan/Lesson_6/internal/models"
 	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 	"github.com/golang/mock/gomock"
 )
@@ -24,7 +25,7 @@ func TestStorage(t *testing.T) {
 
 		_, err := serv.Add(nil)
 		if err!=nil{
-			errors.New("Error User not found2")
+			fmt.Println(err)
 		}
 	
 	
@@ -46,4 +47,13 @@ func TestStorage(t *testing.T) {
 		})
 
 	})
+	// t.Run("test Update with minus id",func(t *testing.T) {
+	// 	stor.EXPECT().Update(int32(-2),models.SUser{Name: "ssss"}).Return(errors.New("ID cant be < 0"))
+	// 	_, err := serv.UpdateUser(int32(-2), &models.SUser{Name: "ssss"})
+	// 	if err != nil {
+	// 	fmt.Println(err)
+	// 	}
+
+	// })
+
 }
