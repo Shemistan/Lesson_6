@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/Shemistan/Lesson_6/model"
-	"github.com/Shemistan/Lesson_6/storage"
+	model2 "github.com/Shemistan/Lesson_6/internal/model"
+	"github.com/Shemistan/Lesson_6/internal/storage"
 	"hash/fnv"
 	"strconv"
 	"time"
@@ -10,17 +10,17 @@ import (
 
 type IService interface {
 	Add(string, string, string, string) (uint32, error)
-	Update(uint32, *model.User) error
+	Update(uint32, *model2.User) error
 	Delete(uint32) error
-	Get(uint32) (*model.User, error)
-	GetAll() ([]*model.User, error)
+	Get(uint32) (*model2.User, error)
+	GetAll() ([]*model2.User, error)
 	Auth(string, string) (int32, error)
 	GetStatistics() []uint32
 }
 
 type UserService struct {
 	storage    *storage.Storage
-	statistics model.Stats
+	statistics model2.Stats
 }
 
 func NewUserService(storage *storage.Storage) *UserService {
@@ -35,7 +35,7 @@ func (us *UserService) Add(name, surname, login, password string) (uint32, error
 	f := fnv.New32a()
 	f.Write([]byte(password))
 
-	return us.storage.Add(&model.User{
+	return us.storage.Add(&model2.User{
 		Name:             name,
 		Surname:          surname,
 		Login:            login,
@@ -47,7 +47,7 @@ func (us *UserService) Add(name, surname, login, password string) (uint32, error
 	})
 }
 
-func (us *UserService) Update(id uint32, user *model.User) error {
+func (us *UserService) Update(id uint32, user *model2.User) error {
 	us.statistics.UpdateCounter++
 
 	f := fnv.New32a()
@@ -64,12 +64,12 @@ func (us *UserService) Delete(id uint32) error {
 	return us.storage.Delete(id)
 }
 
-func (us *UserService) Get(id uint32) (*model.User, error) {
+func (us *UserService) Get(id uint32) (*model2.User, error) {
 	us.statistics.GetUserCounter++
 	return us.storage.Get(id)
 }
 
-func (us *UserService) GetAll() ([]*model.User, error) {
+func (us *UserService) GetAll() ([]*model2.User, error) {
 	us.statistics.GetUsersCounter++
 	return us.storage.GetAll()
 }

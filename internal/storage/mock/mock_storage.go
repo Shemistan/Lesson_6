@@ -5,9 +5,9 @@
 package mock_storage
 
 import (
+	"github.com/Shemistan/Lesson_6/internal/model"
 	reflect "reflect"
 
-	model "github.com/Shemistan/Lesson_6/model"
 	gomock "github.com/golang/mock/gomock"
 )
 

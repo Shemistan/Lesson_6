@@ -2,7 +2,7 @@ package storage
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/model"
+	"github.com/Shemistan/Lesson_6/internal/model"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -54,7 +54,7 @@ func TestStorage(t *testing.T) {
 
 	t.Run("Get", func(t *testing.T) {
 		_, err := st.Get(3)
-		assert.Equal(t, errors.New("User not found"), err)
+		assert.Equal(t, errors.New("user not found"), err)
 	})
 
 	t.Run("Get", func(t *testing.T) {
@@ -104,6 +104,6 @@ func TestStorage(t *testing.T) {
 	t.Run("Auth", func(t *testing.T) {
 		result, err := st.Auth("test", 1231)
 		assert.Equal(t, int32(-1), result)
-		assert.Equal(t, errors.New("User not found"), err)
+		assert.Equal(t, errors.New("user not found"), err)
 	})
 }

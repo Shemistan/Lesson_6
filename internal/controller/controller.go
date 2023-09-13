@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/model"
-	"github.com/Shemistan/Lesson_6/service"
+	"github.com/Shemistan/Lesson_6/internal/model"
+	"github.com/Shemistan/Lesson_6/internal/service"
 )
 
 type UserController struct {

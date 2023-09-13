@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/model"
-	"github.com/Shemistan/Lesson_6/storage"
+	"github.com/Shemistan/Lesson_6/internal/model"
+	"github.com/Shemistan/Lesson_6/internal/storage"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

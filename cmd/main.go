@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/Shemistan/Lesson_6/controller"
-	"github.com/Shemistan/Lesson_6/model"
-	"github.com/Shemistan/Lesson_6/service"
-	"github.com/Shemistan/Lesson_6/storage"
+	"github.com/Shemistan/Lesson_6/internal/controller"
+	"github.com/Shemistan/Lesson_6/internal/model"
+	"github.com/Shemistan/Lesson_6/internal/service"
+	"github.com/Shemistan/Lesson_6/internal/storage"
 	"time"
 )
 
-func Init() *controller.UserController {
+func _init() *controller.UserController {
 	db := storage.NewStorage()
 	userService := service.NewUserService(db)
 	userController := controller.NewUserController(userService)
@@ -25,13 +25,12 @@ func cin[T any](msg string, value T) {
 }
 
 func main() {
-	userController := Init()
+	userController := _init()
 
 	var name, surname, login, password string
 	var choice, userID uint32
 	var isAuth bool
 
-	time.Sleep(1 * time.Second)
 	fmt.Println("[1] Авторизация\n[2] Регистрация\n[0] Выход")
 	cin("Выберите действие: ", &choice)
 

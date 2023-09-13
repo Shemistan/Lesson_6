@@ -2,7 +2,7 @@ package storage
 
 import (
 	"errors"
-	"github.com/Shemistan/Lesson_6/model"
+	"github.com/Shemistan/Lesson_6/internal/model"
 )
 
 type IStorage interface {
