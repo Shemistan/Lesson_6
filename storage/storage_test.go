@@ -10,7 +10,7 @@ import (
 
 func TestStorage(t *testing.T) {
 	st := NewStorage()
-	st.Add(&model.User{
+	_, err := st.Add(&model.User{
 		Name:             "test",
 		Surname:          "test",
 		Login:            "test",
@@ -20,8 +20,11 @@ func TestStorage(t *testing.T) {
 		RegistrationDate: time.Now().Format("2006-01-02 15:04:05"),
 		UpdateDate:       time.Now().Format("2006-01-02 15:04:05"),
 	})
+	if err != nil {
+		t.Error(err)
+	}
 
-	st.Add(&model.User{
+	_, err = st.Add(&model.User{
 		Name:             "test1",
 		Surname:          "test1",
 		Login:            "test1",
@@ -31,6 +34,9 @@ func TestStorage(t *testing.T) {
 		RegistrationDate: time.Now().Format("2006-01-02 15:04:05"),
 		UpdateDate:       time.Now().Format("2006-01-02 15:04:05"),
 	})
+	if err != nil {
+		t.Error(err)
+	}
 
 	t.Run("Add", func(t *testing.T) {
 		result, _ := st.Add(&model.User{

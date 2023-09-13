@@ -75,8 +75,7 @@ func (us *UserService) GetAll() ([]*model.User, error) {
 }
 
 func (us *UserService) GetStatistics() map[string]uint32 {
-	var outStats map[string]uint32
-	outStats = make(map[string]uint32)
+	outStats := make(map[string]uint32)
 
 	outStats["AddCounter"] = us.statistics.AddCounter
 	outStats["UpdateCounter"] = us.statistics.UpdateCounter

@@ -31,6 +31,7 @@ func main() {
 	var choice, userID uint32
 	var isAuth bool
 
+	time.Sleep(1 * time.Second)
 	fmt.Println("[1] Авторизация\n[2] Регистрация\n[0] Выход")
 	cin("Выберите действие: ", &choice)
 
@@ -71,16 +72,22 @@ start:
 		return
 	}
 
-	if isAuth == true {
+	if isAuth {
+		var user *model.User
+		var err error
+
 		fmt.Println("Вывод пользователя с ID: ", userID)
-		user, err := userController.Get(userID)
+		user, err = userController.Get(userID)
 		if err != nil {
 			fmt.Println(err)
 		}
 		fmt.Println(&user)
 
 		fmt.Println("\nВывод всех пользователей")
-		users, err := userController.GetAll()
+		users, _ := userController.GetAll()
+		if err != nil {
+			fmt.Println(err)
+		}
 
 		for _, user := range users {
 			fmt.Println(&user)
@@ -97,6 +104,9 @@ start:
 			Status:       "Undefined",
 			Role:         "Undefined",
 		})
+		if err != nil {
+			fmt.Println(err)
+		}
 
 		fmt.Println(userController.Get(userID))
 
