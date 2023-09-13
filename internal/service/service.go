@@ -21,7 +21,7 @@ type IService interface {
 	Auth(login, password string) (int64, error)
 	UpdateUser(id int64, user *models.User)
 	GetUser(id int64) (user *models.User, err error)
-	GetUsers() ([]*models.User, error)
+	GetUsers() ([]models.User, error)
 	DeleteUser(id int64) (err error)
 	GetStatistics() map[string]int64
 }
@@ -59,7 +59,7 @@ func (service *service) GetUser(id int64) (user *models.User, err error) {
 	return result, nil
 }
 
-func (service *service) GetUsers() ([]*models.User, error) {
+func (service *service) GetUsers() ([]models.User, error) {
 	res, err := service.repo.GetUsers()
 	Cache["GetUsers"]++
 	if err != nil {

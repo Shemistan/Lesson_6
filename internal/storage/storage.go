@@ -11,7 +11,7 @@ type IStorage interface {
 	Auth(a, b string) (int64, error)
 	UpdateUser(id int64, name, surname string, active bool, role string)
 	GetUser(int64) (user *models.User, err error)
-	GetUsers() ([]*models.User, error)
+	GetUsers() ([]models.User, error)
 	DeleteUser(int64) (err error)
 }
 
@@ -73,11 +73,11 @@ func (s *Storage) GetUser(id int64) (*models.User, error) {
 	return nil, errors.New("there is no such user")
 }
 
-func (s *Storage) GetUsers() ([]*models.User, error) {
-	list := make([]*models.User, 0, len(s.dataBase))
+func (s *Storage) GetUsers() ([]models.User, error) {
+	list := make([]models.User, 0, len(s.dataBase))
 	if len(s.dataBase) != 0 {
 		for _, val := range s.dataBase {
-			list = append(list, val)
+			list = append(list, *val)
 		}
 		return list, nil
 	} else {

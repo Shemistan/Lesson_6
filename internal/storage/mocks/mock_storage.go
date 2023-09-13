@@ -79,10 +79,10 @@ func (mr *MockIStorageMockRecorder) GetUser(arg0 interface{}) *gomock.Call {
 }
 
 // GetUsers mocks base method.
-func (m *MockIStorage) GetUsers() ([]*models.User, error) {
+func (m *MockIStorage) GetUsers() ([]models.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers")
-	ret0, _ := ret[0].([]*models.User)
+	ret0, _ := ret[0].([]models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

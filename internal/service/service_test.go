@@ -81,7 +81,7 @@ func TestGetUser(t *testing.T) {
 		Surname:          "Toshtemirov",
 		Active:           true,
 		Role:             "user",
-		RegistrationDate: storage.CurrentTime,
+		RegistrationDate: time.Now().Format("02-01-2006 15:04"),
 		UpdateDate:       time.Now().Format("02-01-2006 15:04"),
 	}
 	var id = 1
@@ -96,7 +96,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestGetUsers(t *testing.T) {
-	test := []*models.User{
+	test := []models.User{
 		0: {
 			Login:            "login",
 			Password:         "password",
@@ -124,6 +124,8 @@ func TestGetUsers(t *testing.T) {
 	} else {
 		fmt.Println("pass")
 	}
+	//fmt.Printf("Actual data: %+v\n", res)
+
 	assert.Equal(t, res, test)
 
 }
