@@ -95,7 +95,7 @@ func TestServer(t *testing.T) {
 	testApi.UpdateUser(2, testUpdateCase2)
 
 	//get user first test
-	var testAllUsers = []*models.User{
+	var testAllUsers = []models.User{
 		{
 			Login:            "Dilmurod",
 			Password:         "12345",
@@ -121,7 +121,7 @@ func TestServer(t *testing.T) {
 	if testGetUserCase1Error != nil {
 		fmt.Println(testGetUserCase1Error)
 	}
-	assert.Equal(t, testAllUsers[0], testGetUserCase1Result, "Expected and actual responses are different")
+	assert.Equal(t, &testAllUsers[0], testGetUserCase1Result, "Expected and actual responses are different")
 
 	//get user 2nd test
 	_, testGetUserCase2Error := testApi.GetUser(3)

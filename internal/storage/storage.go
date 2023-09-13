@@ -74,10 +74,11 @@ func (s *Storage) GetUser(id int64) (*models.User, error) {
 }
 
 func (s *Storage) GetUsers() ([]models.User, error) {
-	list := make([]models.User, 0, len(s.dataBase))
+	list := make([]models.User, len(s.dataBase))
 	if len(s.dataBase) != 0 {
-		for _, val := range s.dataBase {
-			list = append(list, *val)
+		for i, val := range s.dataBase {
+			//list = append(list, *val)
+			list[i-1] = *val
 		}
 		return list, nil
 	} else {

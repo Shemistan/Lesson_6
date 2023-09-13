@@ -65,10 +65,10 @@ func TestUpdateUser(t *testing.T) {
 	test := []testUpdateUser{
 		{
 			id:      1,
-			Name:    "Dilmuod",
+			Name:    "Dilmurod",
 			Surname: "Toshtemirov",
 			Active:  true,
-			Role:    "user",
+			Role:    "User",
 		},
 	}
 	for _, val := range test {
@@ -80,10 +80,10 @@ func TestGetUser(t *testing.T) {
 	test := &models.User{
 		Login:            "login",
 		Password:         "password",
-		Name:             "Dilmuod",
+		Name:             "Dilmurod",
 		Surname:          "Toshtemirov",
 		Active:           true,
-		Role:             "user",
+		Role:             "User",
 		RegistrationDate: CurrentTime,
 		UpdateDate:       time.Now().Format("02-01-2006 15:04"),
 	}
@@ -99,18 +99,18 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestGetUsers(t *testing.T) {
-	test := []*models.User{
-		0: {
+	test := []models.User{
+		{
 			Login:            "login",
 			Password:         "password",
-			Name:             "Dilmuod",
+			Name:             "Dilmurod",
 			Surname:          "Toshtemirov",
 			Active:           true,
-			Role:             "user",
+			Role:             "User",
 			RegistrationDate: CurrentTime,
 			UpdateDate:       time.Now().Format("02-01-2006 15:04"),
 		},
-		1: {
+		{
 			Login:            "login1",
 			Password:         "pass",
 			Name:             "",
@@ -127,7 +127,8 @@ func TestGetUsers(t *testing.T) {
 	} else {
 		fmt.Println("pass")
 	}
-	assert.Equal(t, res, test)
+	//fmt.Printf("Actual data: %+v\n", res)
+	assert.Equal(t, test, res)
 
 }
 
