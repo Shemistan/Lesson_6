@@ -215,4 +215,12 @@ func TestStorage(t *testing.T) {
 
 		assert.Equal(t, err, nil)
 	})
+
+	t.Run("Get statistic should return statistic from storage", func(t *testing.T) {
+		storage := New(host, port, ttl, NewConn())
+
+		result := storage.GetStatistics()
+
+		assert.Equal(t, storage.GetStatistics(), result)
+	})
 }

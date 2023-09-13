@@ -159,4 +159,13 @@ func TestService(t *testing.T) {
 
 		assert.Equal(t, nil, err)
 	})
+
+	t.Run("Get statistic should return statistic from storage", func(t *testing.T) {
+		statistic := models.Statistic{}
+		storage.EXPECT().GetStatistics().Return(&statistic)
+
+		result := serv.GetStatistics()
+
+		assert.Equal(t, statistic, *result)
+	})
 }
