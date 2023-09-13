@@ -1,0 +1,73 @@
+package service
+
+import (
+	"log"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
+	"github.com/Shemistan/Lesson_6/internal/storage"
+)
+
+type IService interface {
+	Register(user *models.User) (int64, error)
+	UpdateUser(id int64, updatedUser *models.User) error
+	GetUser(id int64) (models.User, error)
+	GetAllUsers() []*models.User
+	DeleteUser(id int64) (int64, error)
+}
+
+func New(db storage.IStorage) IService {
+	return &service{
+		repo: db,
+	}
+}
+
+type service struct {
+	repo storage.IStorage
+}
+
+func (s *service) Register(user *models.User) (int64, error) {
+	id, err := s.repo.Add(user)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+func (s *service) UpdateUser(id int64, updatedUser *models.User) error {
+	err := s.repo.Update(id, updatedUser)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *service) GetUser(id int64) (models.User, error) {
+	user, err := s.repo.Get(id)
+
+	if err != nil {
+		log.Println(err)
+		return models.User{}, err
+	}
+
+	return user, nil
+}
+
+func (s *service) GetAllUsers() []*models.User {
+	usersList := s.repo.GetAll()
+
+	return usersList
+}
+
+func (s *service) DeleteUser(id int64) (int64, error) {
+	id, err := s.repo.Delete(id)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
