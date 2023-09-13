@@ -71,6 +71,11 @@ func TestStorage(t *testing.T) {
 		}
 
 		_, err := storage.Add(user)
+
+		if err == nil {
+			t.Error("err is nil")
+		}
+
 		_, err = storage.Add(user)
 
 		if err == nil {
@@ -205,9 +210,14 @@ func TestStorage(t *testing.T) {
 
 	t.Run("Delete should successfully delete user", func(t *testing.T) {
 		storage := New(host, port, ttl, NewConn())
-		storage.Add(&models.User{})
 
-		err := storage.Delete(1)
+		_, err := storage.Add(&models.User{})
+
+		if err != nil {
+			t.Error(err)
+		}
+
+		err = storage.Delete(1)
 
 		if err != nil {
 			t.Error(err)

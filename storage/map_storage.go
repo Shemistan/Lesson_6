@@ -48,9 +48,7 @@ func (s *storage) Add(user *models.User) (int, error) {
 	defer s.closeConn()
 
 	if s.isUserExists(user.Login) {
-		return 0, errors.New(
-			fmt.Sprintf("user with this login already exists %s", user.Login),
-		)
+		return 0, fmt.Errorf("user with this login already exists %s", user.Login)
 	}
 
 	s.ids++
@@ -152,9 +150,7 @@ func (s *storage) getUserById(id int) (*models.User, error) {
 	user, ok := s.db[id]
 
 	if !ok {
-		return nil, errors.New(
-			fmt.Sprintf("user with this id not exists %d", id),
-		)
+		return nil, fmt.Errorf("user with this id not exists %d", id)
 	}
 
 	return user, nil
