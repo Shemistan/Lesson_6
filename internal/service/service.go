@@ -70,9 +70,9 @@ func (service *service) GetUsers() ([]models.User, error) {
 
 func (service *service) DeleteUser(id int64) error {
 	Cache["DeleteUser"]++
-	error := service.repo.DeleteUser(id)
-	if error != nil {
-		return error
+	err := service.repo.DeleteUser(id)
+	if err != nil {
+		return err
 	}
 	Cache["DeletedUsers"]++
 	return nil

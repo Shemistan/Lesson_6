@@ -4,12 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"testing"
-
 	"time"
 
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/storage"
-
 	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -140,14 +138,6 @@ func TestDeleteUser(t *testing.T) {
 func TestService(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	// test := &models.User{
-	// 	Login:    "Dima",
-	// 	Password: "Pass",
-	// 	Name:     "Dilmuod",
-	// 	Surname:  "Toshtemirov",
-	// 	Active:   true,
-	// 	Role:     "user",
-	// }
 
 	db := mock_storage.NewMockIStorage(ctrl)
 	serv := New(db)
@@ -155,8 +145,6 @@ func TestService(t *testing.T) {
 	t.Run("req is nil", func(t *testing.T) {
 		db.EXPECT().Auth("Dima", "Pass").Return(int64(1), nil)
 		db.EXPECT().Auth("Dima", "Pas").Return(int64(0), errors.New("wrong password"))
-		//db.EXPECT().UpdateUser(int(1), test.Name, test.Surname, test.Active, test.Role).Return()
-		//t.Logf("Calling GetUser with id: %d", id)
 		db.EXPECT().GetUser(int64(id)).Return(nil, errors.New("wrong id"))
 		db.EXPECT().DeleteUser(int64(1)).Return(nil)
 		db.EXPECT().DeleteUser(int64(0)).Return(errors.New("no such id"))

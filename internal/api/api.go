@@ -49,10 +49,10 @@ func (api *api) GetUsers() ([]models.User, error) {
 	}
 	return res, nil
 }
-func (api *api) DeleteUser(id int64) (err error) {
-	error := api.serv.DeleteUser(id)
-	if error != nil {
-		return error
+func (api *api) DeleteUser(id int64) (er error) {
+	err := api.serv.DeleteUser(id)
+	if err != nil {
+		return err
 	}
 	return nil
 }

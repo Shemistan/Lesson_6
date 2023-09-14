@@ -77,7 +77,6 @@ func (s *Storage) GetUsers() ([]models.User, error) {
 	list := make([]models.User, len(s.dataBase))
 	if len(s.dataBase) != 0 {
 		for i, val := range s.dataBase {
-			//list = append(list, *val)
 			list[i-1] = *val
 		}
 		return list, nil
