@@ -29,54 +29,56 @@ type service struct {
 }
 
 func (s *service) Auth(req *models.AuthRequest) (int, error) {
+	s.statistics.GetUserCounts++
+
 	res, err := s.repo.Auth(req)
 	if err != nil {
 		return 0, err
 	}
-	s.statistics.GetUserCounts++
+
 	return res, nil
 }
 
 func (s *service) UpdateUser(id int, req *models.UserRequest) error {
+	s.statistics.UpdateCount++
+
 	err := s.repo.UpdateUser(id, req)
 	if err != nil {
 		return err
 	}
 
-	s.statistics.UpdateCount++
-
 	return nil
 }
 
 func (s *service) GetUser(id int) (*models.User, error) {
+	s.statistics.GetUserCounts++
+
 	res, err := s.repo.GetUser(id)
 	if err != nil {
 		return nil, err
 	}
 
-	s.statistics.GetUserCounts++
-
 	return res, nil
 }
 
 func (s *service) GetUsers() ([]*models.User, error) {
+	s.statistics.GetUsersCounts++
+
 	res, err := s.repo.GetUsers()
 	if err != nil {
 		return nil, err
 	}
 
-	s.statistics.GetUsersCounts++
-
 	return res, nil
 }
 
 func (s *service) DeleteUser(id int) error {
+	s.statistics.DeleteUsersCount++
+
 	err := s.repo.DeleteUser(id)
 	if err != nil {
 		return err
 	}
-
-	s.statistics.DeleteUsersCount++
 
 	return nil
 }
