@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type AddRequest struct {
 	AuthParams AuthData
 	Date       UserDate
@@ -15,6 +17,6 @@ type UserDate struct {
 	Surname          string
 	Status           string
 	Role             string
-	RegistrationDate string
-	UpdateDate       string
+	RegistrationDate time.Time
+	UpdateDate       time.Time
 }

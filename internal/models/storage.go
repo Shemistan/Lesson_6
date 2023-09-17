@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type User struct {
 	Name             string
 	Surname          string
@@ -7,6 +9,6 @@ type User struct {
 	HashPassword     string
 	Status           string
 	Role             string
-	RegistrationDate string
-	UpdateDate       string
+	RegistrationDate time.Time
+	UpdateDate       time.Time
 }

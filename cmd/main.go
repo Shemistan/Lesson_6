@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/Shemistan/Lesson_6/internal/api"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
@@ -26,8 +28,8 @@ func Server(handler api.IApi) {
 			Surname: "Florida",
 			Role: "User",
 			Status: "Tourist",
-			RegistrationDate: "fsdfsf",
-			UpdateDate:       "fdsfss",
+			RegistrationDate: time.Now(),
+			UpdateDate:       time.Now(),
 		},
 	})
 }

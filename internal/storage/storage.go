@@ -2,18 +2,19 @@ package storage
 
 import (
 	"errors"
-	"fmt"
 	"log"
+	"time"
 
 	"github.com/Shemistan/Lesson_6/internal/models"
 )
 
 type IStorage interface {
 	Auth(user *models.User)(int, error)
-	// Get(userId int) (*models.User, error)
-	// GetUsers() (map[int]*models.User, error)
-	// Update(userId int, user *models.UserDate) error
-	// Delete(userID int) error
+	GetUser(userId int) (*models.User, error)
+	GetUsers() ([]*models.User, error)
+	UpdateUser(userId int, user *models.UserDate) error
+	DeleteUser(userId int) error
+	//GetStatistics() *models.Statistics
 }
 
 type storage struct {
@@ -37,13 +38,24 @@ func New(host string, port, ttl int, conn *Conn)IStorage {
 }
 
 func (s *storage) Auth(user *models.User)(int, error) {
+	err := s.conn.Open()
+	if err != nil {
+		return 0, err
+	}
+	defer func() {
+		errClose := s.conn.Close()
+		if errClose != nil {
+			log.Println(errClose)
+		}
+	}()
+
 	if user == nil{
 		return 0, errors.New("Not founded")
 	}
 
 	s.ids ++
 	log.Printf("user %v is add: %v", s.ids, user)
-	fmt.Println("dsada")
+
 	for k, v := range s.db {
 		if v.Login == user.Login {
 			if v.HashPassword == user.HashPassword {
@@ -57,6 +69,101 @@ func (s *storage) Auth(user *models.User)(int, error) {
 	}
 
 	return s.ids, nil
+}
+
+
+func (s *storage) GetUser(userId int)(*models.User, error) {
+	err := s.conn.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		errClose := s.conn.Close()
+		if errClose != nil {
+			log.Println(errClose)
+		}
+	}()
+
+		user, isOk := s.db[userId]
+		if isOk {
+			return user, nil
+		}
+
+		return nil, errors.New("User not found")
+}
+
+func (s *storage) GetUsers()([]*models.User, error) {
+	err := s.conn.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		errClose := s.conn.Close()
+		if errClose != nil {
+			log.Println(errClose)
+		}
+	}()
+
+	var users []*models.User
+
+	for _, v := range s.db {
+		 users = append(users, v)
+	}
+
+		return users, nil
+}
+
+func (s *storage) UpdateUser(userId int, user *models.UserDate)(error) {
+	if user == nil {
+		return errors.New("data is nil")
+	}
+
+	err := s.conn.Open()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		errClose := s.conn.Close()
+		if errClose != nil {
+			log.Println(errClose)
+		}
+	}()
+
+	userDb, isOk := s.db[userId]
+
+	if !isOk {
+		return errors.New("fall update user")
+	}
+
+	userDb.Name = user.Name
+	userDb.Surname = user.Surname
+	userDb.Status = user.Status
+	userDb.Role = user.Role
+	userDb.UpdateDate = time.Now()
+
+	return nil
+
+}
+
+func (s *storage) DeleteUser(userId int) error {
+	err := s.conn.Open()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		errClose := s.conn.Close()
+		if errClose != nil {
+			log.Println(errClose)
+		}
+	}()
+
+		_, isOk := s.db[userId]
+		if !isOk {
+			return errors.New("not found userId")
+		} else {
+			delete(s.db, userId)
+			return nil
+		}
 }
 
 func NewConnect() *Conn {
