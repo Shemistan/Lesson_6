@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>api: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/Shemistan/Lesson_6/internal/api/api.go (90.5%)</option>
+				
+				<option value="file1">github.com/Shemistan/Lesson_6/internal/service/service.go (90.9%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package api
+
+import (
+
+        "github.com/Shemistan/Lesson_6/internal/converters"
+        "github.com/Shemistan/Lesson_6/internal/models"
+        "github.com/Shemistan/Lesson_6/internal/service"
+)
+
+type IApi interface {
+        Register(req *models.Request) (int64, error)
+        Update(Id int64, req *models.UserUpdateRequest) error
+        Get(Id int64) (*models.User, error)
+        GetAllUsers() []*models.User
+        DeleteUser(Id int64) (int64, error)
+        GetStats() map[string]int
+}
+
+func New(serv service.IService) IApi <span class="cov1" title="1">{
+        return &amp;api{
+                serv: serv,
+        }
+}</span>
+
+
+type api struct {
+        serv service.IService
+}
+
+
+func (a *api) Register(req *models.Request) (int64, error) <span class="cov10" title="2">{
+        id, err := a.serv.Register(converters.ApiModelToServiceModel(*req))
+
+        if err != nil </span><span class="cov1" title="1">{
+                return 0, err
+        }</span>
+
+        <span class="cov1" title="1">return id, nil</span>
+}
+
+func (a *api) Update(id int64, req *models.UserUpdateRequest) error <span class="cov10" title="2">{
+        err := a.serv.UpdateUser(id, converters.UserUpdate(*req))
+
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
+
+        <span class="cov1" title="1">return nil</span>
+}
+
+func (a *api) Get(id int64) (*models.User, error) <span class="cov10" title="2">{
+        user, err := a.serv.GetUser(id)
+
+        if err != nil </span><span class="cov1" title="1">{
+                return &amp;models.User{}, err
+        }</span>
+        <span class="cov1" title="1">return user, nil</span>
+}
+
+func (a *api) GetAllUsers() []*models.User <span class="cov1" title="1">{
+        usersList := a.serv.GetAllUsers()
+
+        return usersList
+}</span>
+
+func (a *api) DeleteUser(id int64) (int64, error) <span class="cov10" title="2">{
+        id, err := a.serv.DeleteUser(id)
+
+        if err != nil </span><span class="cov1" title="1">{
+                return 0, err
+        }</span>
+
+        <span class="cov1" title="1">return id, nil</span>
+}
+
+func (a *api) GetStats() map[string]int <span class="cov0" title="0">{
+        stats := a.serv.GetStats()
+        return stats
+}</pre>
+		
+		<pre class="file" id="file1" style="display: none">package service
+
+import (
+        "log"
+
+        "github.com/Shemistan/Lesson_6/internal/models"
+        "github.com/Shemistan/Lesson_6/internal/storage"
+)
+
+type IService interface {
+        Register(user *models.User) (int64, error)
+        UpdateUser(id int64, updatedUser *models.User) error
+        GetUser(id int64) (*models.User, error)
+        GetAllUsers() []*models.User
+        DeleteUser(id int64) (int64, error)
+        GetStats() map[string]int
+}
+
+func New(db storage.IStorage) IService <span class="cov1" title="1">{
+        return &amp;service{
+                repo: db,
+        }
+}</span>
+
+type service struct {
+        repo storage.IStorage
+}
+
+func (s *service) Register(request *models.User) (int64, error) <span class="cov6" title="2">{
+        id, err := s.repo.Add(request)
+
+        if err != nil </span><span class="cov1" title="1">{
+                return 0, err
+        }</span>
+
+        <span class="cov1" title="1">return id, nil</span>
+}
+
+func (s *service) UpdateUser(id int64, updatedUser *models.User) error <span class="cov10" title="3">{
+        err := s.repo.Update(id, updatedUser)
+
+        if err != nil </span><span class="cov6" title="2">{
+                return err
+        }</span>
+
+        <span class="cov1" title="1">return nil</span>
+}
+
+func (s *service) GetUser(id int64) (*models.User, error) <span class="cov6" title="2">{
+        user, err := s.repo.Get(id)
+
+        if err != nil </span><span class="cov1" title="1">{
+                log.Println(err)
+                return &amp;models.User{}, err
+        }</span>
+
+        <span class="cov1" title="1">return user, nil</span>
+}
+
+func (s *service) GetAllUsers() []*models.User <span class="cov1" title="1">{
+        usersList := s.repo.GetAll()
+
+        return usersList
+}</span>
+
+func (s *service) DeleteUser(id int64) (int64, error) <span class="cov10" title="3">{
+        id, err := s.repo.Delete(id)
+
+        if err != nil </span><span class="cov6" title="2">{
+                return 0, err
+        }</span>
+
+        <span class="cov1" title="1">return id, nil</span>
+}
+
+func (s *service) GetStats() map[string]int <span class="cov0" title="0">{
+        stats := s.repo.GetStats()
+        return stats
+}</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

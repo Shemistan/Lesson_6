@@ -24,7 +24,7 @@ func Server(handler api.IApi) {
 	})
 
 	handler.Get(1)
-
+	
 	handler.Update(1, &models.UserUpdateRequest{
 		Firstname: "Bogdan",
 		Lastname: "Azimjanov",

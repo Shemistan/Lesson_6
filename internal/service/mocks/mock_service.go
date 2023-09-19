@@ -63,11 +63,25 @@ func (mr *MockIServiceMockRecorder) GetAllUsers() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUsers", reflect.TypeOf((*MockIService)(nil).GetAllUsers))
 }
 
+// GetStats mocks base method.
+func (m *MockIService) GetStats() map[string]int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetStats")
+	ret0, _ := ret[0].(map[string]int)
+	return ret0
+}
+
+// GetStats indicates an expected call of GetStats.
+func (mr *MockIServiceMockRecorder) GetStats() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStats", reflect.TypeOf((*MockIService)(nil).GetStats))
+}
+
 // GetUser mocks base method.
-func (m *MockIService) GetUser(id int64) (models.User, error) {
+func (m *MockIService) GetUser(id int64) (*models.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUser", id)
-	ret0, _ := ret[0].(models.User)
+	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

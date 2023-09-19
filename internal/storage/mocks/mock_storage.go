@@ -65,10 +65,10 @@ func (mr *MockIStorageMockRecorder) Delete(id interface{}) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *MockIStorage) Get(id int64) (models.User, error) {
+func (m *MockIStorage) Get(id int64) (*models.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", id)
-	ret0, _ := ret[0].(models.User)
+	ret0, _ := ret[0].(*models.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -91,6 +91,20 @@ func (m *MockIStorage) GetAll() []*models.User {
 func (mr *MockIStorageMockRecorder) GetAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockIStorage)(nil).GetAll))
+}
+
+// GetStats mocks base method.
+func (m *MockIStorage) GetStats() map[string]int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetStats")
+	ret0, _ := ret[0].(map[string]int)
+	return ret0
+}
+
+// GetStats indicates an expected call of GetStats.
+func (mr *MockIStorageMockRecorder) GetStats() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStats", reflect.TypeOf((*MockIStorage)(nil).GetStats))
 }
 
 // Update mocks base method.

@@ -10,9 +10,10 @@ import (
 type IApi interface {
 	Register(req *models.Request) (int64, error)
 	Update(Id int64, req *models.UserUpdateRequest) error
-	Get(Id int64) error
+	Get(Id int64) (*models.User, error)
 	GetAllUsers() []*models.User
 	DeleteUser(Id int64) (int64, error)
+	GetStats() map[string]int
 }
 
 func New(serv service.IService) IApi {
@@ -47,13 +48,13 @@ func (a *api) Update(id int64, req *models.UserUpdateRequest) error {
 	return nil
 }
 
-func (a *api) Get(id int64) error {
-	_, err := a.serv.GetUser(id)
+func (a *api) Get(id int64) (*models.User, error) {
+	user, err := a.serv.GetUser(id)
 
 	if err != nil {
-		return err
+		return &models.User{}, err
 	}
-	return nil
+	return user, nil
 }
 
 func (a *api) GetAllUsers() []*models.User {
@@ -66,8 +67,13 @@ func (a *api) DeleteUser(id int64) (int64, error) {
 	id, err := a.serv.DeleteUser(id)
 
 	if err != nil {
-		return 0, nil
+		return 0, err
 	}
 
 	return id, nil
+}
+
+func (a *api) GetStats() map[string]int {
+	stats := a.serv.GetStats()
+	return stats
 }

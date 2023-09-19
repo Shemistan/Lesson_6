@@ -12,14 +12,16 @@ import (
 type IStorage interface {
 	Add(user *models.User) (int64, error)
 	Update(id int64, user *models.User) error
-	Get(id int64) (models.User, error)
+	Get(id int64) (*models.User, error)
 	GetAll() []*models.User
 	Delete(id int64) (int64, error)
+	GetStats() map[string]int
 }
 
 func New(host string, port int64) IStorage {
 	return &storage{
 		db:        make(map[int64]*models.User),
+		stats:     make(map[string]int),
 		host:      host,
 		port:      port,
 		idCounter: 0,
@@ -28,6 +30,7 @@ func New(host string, port int64) IStorage {
 
 type storage struct {
 	db        map[int64]*models.User
+	stats     map[string]int
 	host      string
 	port      int64
 	idCounter int64
@@ -41,29 +44,30 @@ func (s *storage) Add(user *models.User) (int64, error) {
 	existingUser, ok := s.db[user.Id]
 
 	if ok {
-		log.Printf("user with id %d already exists", user.Id)
+		log.Printf("user with %d ID already exists", existingUser.Id)
 		return existingUser.Id, nil
 	}
-
-	
 
 	s.idCounter++
 	user.Id = s.idCounter
 	s.db[s.idCounter] = user
-	log.Printf("user with login: %s is added - Created at: %s\n", user.Login, user.RegistrationDate)
 	return user.Id, nil
 }
 
 func (s *storage) Update(id int64, updatedUser *models.User) error {
 
-	if id < 0 {
-		return errors.New("id can't be less than 0")
+	if id <= 0 {
+		return errors.New("id should be greater than 0")
 	}
 
 	user, ok := s.db[id]
 
 	if !ok {
 		return fmt.Errorf("user with id: %d not found", id)
+	}
+
+	if updatedUser.Firstname == "" && updatedUser.Lastname == "" {
+		return nil
 	}
 
 	if updatedUser.Firstname != "" {
@@ -75,19 +79,20 @@ func (s *storage) Update(id int64, updatedUser *models.User) error {
 	}
 
 	user.UpdatedDate = time.Now().String()
-
+	s.stats["update_user"]++
 	return nil
 
 }
 
-func (s *storage) Get(id int64) (models.User, error) {
+func (s *storage) Get(id int64) (*models.User, error) {
 	user, ok := s.db[id]
 
 	if !ok {
-		return models.User{}, fmt.Errorf("user with id %d doesn't exist", id)
+		return &models.User{}, fmt.Errorf("user with id %d doesn't exist", id)
 	}
 	log.Printf("id: %d, login: %s, firstname: %s, lastname: %s", user.Id, user.Login, user.Firstname, user.Lastname)
-	return *user, nil
+	s.stats["get_user"]++
+	return user, nil
 }
 
 func (s *storage) GetAll() []*models.User {
@@ -96,6 +101,7 @@ func (s *storage) GetAll() []*models.User {
 		userList = append(userList, user)
 	}
 	log.Printf("users: %+v", userList)
+	s.stats["get_users"]++
 	return userList
 }
 
@@ -116,6 +122,11 @@ func (s *storage) Delete(id int64) (int64, error) {
 
 	delete(s.db, id)
 	log.Printf("user with id %d was successfully deleted", id)
-
+	s.stats["deleted_users"]++
 	return id, nil
+}
+
+func (s *storage) GetStats() map[string]int {
+	log.Printf("get_user: %d, get_users: %d, update_user: %d, deleted_users: %d", s.stats["get_user"], s.stats["get_users"], s.stats["update_user"], s.stats["deleted_users"])
+	return s.stats
 }
