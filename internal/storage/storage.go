@@ -88,7 +88,7 @@ func (s *storage) Get(id int64) (*models.User, error) {
 	user, ok := s.db[id]
 
 	if !ok {
-		return &models.User{}, fmt.Errorf("user with id %d doesn't exist", id)
+		return nil, fmt.Errorf("user with id %d doesn't exist", id)
 	}
 	log.Printf("id: %d, login: %s, firstname: %s, lastname: %s", user.Id, user.Login, user.Firstname, user.Lastname)
 	s.stats["get_user"]++
