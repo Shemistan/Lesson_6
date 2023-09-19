@@ -24,7 +24,7 @@ func Server(handler api.IApi) {
 	})
 
 	handler.Get(1)
-	
+	handler.GetStats()
 	handler.Update(1, &models.UserUpdateRequest{
 		Firstname: "Bogdan",
 		Lastname: "Azimjanov",
@@ -36,7 +36,7 @@ func Server(handler api.IApi) {
 		Firstname: "",
 		Lastname: "Azimzhanov",
 	})
-
+	
 	handler.Get(1)
 
 	handler.GetAllUsers()
@@ -47,7 +47,7 @@ func Server(handler api.IApi) {
 			Password: "12345678",
 		},
 	})
-
+	handler.GetStats()
 	handler.Get(2)
 
 	handler.GetAllUsers()
@@ -64,4 +64,5 @@ func Server(handler api.IApi) {
 	handler.Get(2)
 
 	handler.GetAllUsers()
+	handler.GetStats()
 }
