@@ -19,46 +19,46 @@ func main() {
 
 func Server(handlers api.IApi) {
 	_, err := handlers.AddUser(&models.AddUserRequest{
-		Login:    "manager_1",
+		Login:    "user1",
 		Password: "123456",
-		Name:     "Daler",
-		Surname:  "Sultonov",
+		Name:     "Bekzod",
+		Surname:  "Askarov",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot add user")
+		log.Fatalln("Cannot add user")
 	}
 
 	_, err = handlers.AddUser(&models.AddUserRequest{
-		Login:    "manager_2",
+		Login:    "user2",
 		Password: "123456",
-		Name:     "Daler",
-		Surname:  "Sultonov",
+		Name:     "Doe",
+		Surname:  "Jones",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot add user")
+		log.Fatalln("Cannot add user")
 	}
 	user, err := handlers.GetUser(&models.GetUserRequest{
 		UserId: 1,
 	})
 
 	if err != nil {
-		log.Fatalln("cannot get user")
+		log.Fatalln("Cannot get user")
 	}
 
 	fmt.Printf("%v", user)
 
 	err = handlers.UpdateUser(&models.UpdateUserRequest{
 		Id:       int(user.Id),
-		Login:    "updated_manager",
+		Login:    "updated_user",
 		Password: "12345678",
-		Name:     "Daler_",
-		Surname:  "Sultonov_",
+		Name:     "Bekzod_",
+		Surname:  "Askarov_",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot update user")
+		log.Fatalln("Cannot update user")
 	}
 
 	err = handlers.DeleteUser(&models.DeleteUserRequest{
@@ -66,40 +66,40 @@ func Server(handlers api.IApi) {
 	})
 
 	if err != nil {
-		log.Fatalln("cannot delete user")
+		log.Fatalln("Cannot delete user")
 	}
 
 	_, err = handlers.AddUser(&models.AddUserRequest{
-		Login:    "manager_1",
+		Login:    "user1",
 		Password: "123456",
-		Name:     "Daler",
-		Surname:  "Sultonov",
+		Name:     "Bekzod",
+		Surname:  "Askarov",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot add user")
+		log.Fatalln("Cannot add user")
 	}
 
 	_, err = handlers.AddUser(&models.AddUserRequest{
-		Login:    "manager_1",
+		Login:    "user1",
 		Password: "123456",
-		Name:     "Daler",
-		Surname:  "Sultonov",
+		Name:     "Bekzod",
+		Surname:  "Askarov",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot add user")
+		log.Fatalln("Cannot add user")
 	}
 
 	_, err = handlers.AddUser(&models.AddUserRequest{
-		Login:    "manager_1",
+		Login:    "user1",
 		Password: "123456",
-		Name:     "Daler",
-		Surname:  "Sultonov",
+		Name:     "Bekzod",
+		Surname:  "Askarov",
 	})
 
 	if err != nil {
-		log.Fatalln("cannot add user")
+		log.Fatalln("Cannot add user")
 	}
 
 	users := handlers.GetUsers(&models.GetUsersRequest{})
