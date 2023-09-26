@@ -23,13 +23,6 @@ func ApiAuthConvertToService(juser string)(user models.SAuth) {
 		return user1
 }
 
-func ApiAuthConvertFromoService(user *models.SAuth) (string) {
-	js,_ := json.Marshal(user)
-	juser := string(js)
-
-	return juser
-}
-
 func ApiUserConvertToService(juser string)(models.SUser, error) {
 	js := []byte(juser)
 	user1 := models.SUser{}
@@ -68,6 +61,6 @@ func ApiIdConvertToService(juser string)(models.IdGenerate, error) {
 func ApiIdConvertFromoService(id models.IdGenerate) (string) {
 	js,_ := json.Marshal(id)
 	juser := string(js)
-	
+
 	return juser
 }
