@@ -20,7 +20,7 @@ func main() {
 }
 
 func Server(handler api.IApi) {
-	authFirst, err := handler.Auth(&models.AddRequest{
+	 _, err := handler.Auth(&models.AddRequest{
 		AuthParams: models.AuthData{
 			Login: "nods1",
 			Password: "nods123",
@@ -29,11 +29,9 @@ func Server(handler api.IApi) {
 
 	if err != nil {
 		log.Println(err.Error())
-	} else {
-		log.Println(authFirst)
 	}
 
-	authSecond, err := handler.Auth(&models.AddRequest{
+	_, err = handler.Auth(&models.AddRequest{
 		AuthParams: models.AuthData{
 			Login: "nods2",
 			Password: "nods123",
@@ -42,8 +40,6 @@ func Server(handler api.IApi) {
 
 	if err != nil {
 		log.Println(err.Error())
-	} else {
-		log.Println(authSecond)
 	}
 
 	updateUser := handler.UpdateUser(1, &models.UserDate{
@@ -60,29 +56,23 @@ func Server(handler api.IApi) {
 		return
 	}
 
-	user, err := handler.GetUser(1)
+	_, err = handler.GetUser(1)
 
 	if err != nil {
 		log.Println(err.Error())
-	} else {
-		log.Println("Get info about", user)
-	}
+	} 
 
-	deleteUser := handler.DeleteUser(1)
+	err = handler.DeleteUser(1)
 
-	if deleteUser != nil {
-		log.Println(err.Error())
-	} else {
-		log.Println("User deleted success")
-	}
+	if err != nil {
+		log.Println(err)
+	} 
 
-	getUsers, err := handler.GetUsers()
+	_, err = handler.GetUsers()
 
 	if err != nil {
 		log.Println(err.Error())
-	} else {
-		log.Println("Get all users:", getUsers)
-	}
+	} 
 
 	handler.GetStatistics()
 }
