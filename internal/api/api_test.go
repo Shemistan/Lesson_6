@@ -4,11 +4,12 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
 	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
-	"github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestIntegrationApi(t *testing.T) {
@@ -65,21 +66,21 @@ func TestIntegrationApi(t *testing.T) {
 		},
 	}
 
-	testsGet := []TestCaseGet {
+	testsGet := []TestCaseGet{
 		{
-			name:     "Get user -> OK",
-			id:       1,
+			name: "Get user -> OK",
+			id:   1,
 			response: &models.User{
 				Id:               1,
 				Login:            "do",
 				Firstname:        "John",
 				Lastname:         "Doe",
 				Status:           "Active",
-				HashedPassword: "adshabsb2833465dhasd@#23shfsz",
+				HashedPassword:   "adshabsb2833465dhasd@#23shfsz",
 				RegistrationDate: "19-09-2023",
 				UpdatedDate:      "",
 			},
-			err:      nil,
+			err: nil,
 		},
 		{
 			name:     "Get user -> FAIL",
@@ -160,9 +161,8 @@ type TestCaseUpdate struct {
 }
 
 type TestCaseGet struct {
-	name string
-	id int64
+	name     string
+	id       int64
 	response *models.User
-	err error
+	err      error
 }
-

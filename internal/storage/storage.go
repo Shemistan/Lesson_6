@@ -40,7 +40,6 @@ func (s *storage) Add(user *models.User) (int64, error) {
 	if user == nil {
 		return 0, errors.New("user is null")
 	}
-
 	existingUser, ok := s.db[user.Id]
 
 	if ok {
@@ -55,26 +54,21 @@ func (s *storage) Add(user *models.User) (int64, error) {
 }
 
 func (s *storage) Update(id int64, updatedUser *models.User) error {
-
 	if id <= 0 {
 		return errors.New("id should be greater than 0")
 	}
-
 	user, ok := s.db[id]
 
 	if !ok {
 		return fmt.Errorf("user with id: %d not found", id)
 	}
 
-	if updatedUser.Firstname == "" && updatedUser.Lastname == "" {
+	switch {
+	case updatedUser.Firstname == "" && updatedUser.Lastname == "":
 		return nil
-	}
-
-	if updatedUser.Firstname != "" {
+	case updatedUser.Firstname != "":
 		user.Firstname = updatedUser.Firstname
-	}
-
-	if updatedUser.Lastname != "" {
+	case updatedUser.Lastname != "":
 		user.Lastname = updatedUser.Lastname
 	}
 
@@ -86,21 +80,26 @@ func (s *storage) Update(id int64, updatedUser *models.User) error {
 
 func (s *storage) Get(id int64) (*models.User, error) {
 	user, ok := s.db[id]
-
 	if !ok {
 		return nil, fmt.Errorf("user with id %d doesn't exist", id)
 	}
+
 	log.Printf("id: %d, login: %s, firstname: %s, lastname: %s", user.Id, user.Login, user.Firstname, user.Lastname)
+
 	s.stats["get_user"]++
+
 	return user, nil
 }
 
 func (s *storage) GetAll() []*models.User {
 	var userList []*models.User
+
 	for _, user := range s.db {
 		userList = append(userList, user)
 	}
+
 	log.Printf("users: %+v", userList)
+
 	s.stats["get_users"]++
 	return userList
 }
@@ -113,7 +112,6 @@ func (s *storage) Delete(id int64) (int64, error) {
 	if id <= 0 {
 		return 0, errors.New("invalid id")
 	}
-
 	_, ok := s.db[id]
 
 	if !ok {
@@ -121,8 +119,11 @@ func (s *storage) Delete(id int64) (int64, error) {
 	}
 
 	delete(s.db, id)
+
 	log.Printf("user with id %d was successfully deleted", id)
+
 	s.stats["deleted_users"]++
+	
 	return id, nil
 }
 

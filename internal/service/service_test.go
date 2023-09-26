@@ -5,35 +5,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Shemistan/Lesson_6/internal/models"
-	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
+	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 )
 
-func TestIntegrationService(t *testing.T) {
+func TestIntegrationRegister(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	storage := mock_storage.NewMockIStorage(ctrl)
 	serv := New(storage)
-
-	fakeUpdatedUser := models.User{
-		Firstname:   "John",
-		Lastname:    "Doe",
-		UpdatedDate: time.Now().String(),
-	}
-
-	fakeUser := models.User{
-		Id:               2,
-		Login:            "qwerty",
-		Firstname:        "John",
-		Lastname:         "Doe",
-		Status:           "Active",
-		HashedPassword:   "ksdjflsg8487465w3ur@kojfs125",
-		RegistrationDate: time.Now().String(),
-		UpdatedDate:      time.Now().String(),
-	}
 
 	t.Run("Add user -> success", func(t *testing.T) {
 		storage.EXPECT().Add(gomock.Any()).Return(int64(1), nil)
@@ -59,6 +43,21 @@ func TestIntegrationService(t *testing.T) {
 			t.Error(err)
 		}
 	})
+
+}
+
+func TestIntegrationUpdate(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	storage := mock_storage.NewMockIStorage(ctrl)
+	serv := New(storage)
+
+	fakeUpdatedUser := models.User{
+		Firstname:   "John",
+		Lastname:    "Doe",
+		UpdatedDate: time.Now().String(),
+	}
 
 	t.Run("Update -> success", func(t *testing.T) {
 		storage.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil)
@@ -88,6 +87,25 @@ func TestIntegrationService(t *testing.T) {
 		assert.Equal(t, "id should be greater than 0", err.Error())
 
 	})
+}
+
+func TestIntegrationGet(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	storage := mock_storage.NewMockIStorage(ctrl)
+	serv := New(storage)
+
+	fakeUser := models.User{
+		Id:               2,
+		Login:            "qwerty",
+		Firstname:        "John",
+		Lastname:         "Doe",
+		Status:           "Active",
+		HashedPassword:   "ksdjflsg8487465w3ur@kojfs125",
+		RegistrationDate: time.Now().String(),
+		UpdatedDate:      time.Now().String(),
+	}
 
 	t.Run("Get -> success", func(t *testing.T) {
 		storage.EXPECT().Get(gomock.Any()).Return(&fakeUser, nil)
@@ -117,6 +135,14 @@ func TestIntegrationService(t *testing.T) {
 
 		assert.Equal(t, len(userList), len(users))
 	})
+}
+
+func TestIntegrationDelete(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	storage := mock_storage.NewMockIStorage(ctrl)
+	serv := New(storage)
 
 	t.Run("Delete -> success", func(t *testing.T) {
 		storage.EXPECT().Delete(gomock.Any()).Return(int64(10), nil)
@@ -141,6 +167,4 @@ func TestIntegrationService(t *testing.T) {
 
 		assert.Equal(t, "user with id 10 doesn't exist", err.Error())
 	})
-
-	
 }

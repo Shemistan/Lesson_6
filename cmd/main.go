@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/Shemistan/Lesson_6/internal/api"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
@@ -16,52 +18,102 @@ func main() {
 
 
 func Server(handler api.IApi) {
-	handler.Register(&models.Request{
+	_, err := handler.Register(&models.Request{
 		AuthParams: models.AuthParams{
 			Login: "July",
 			Password: "142536sa",
 		},
 	})
 
-	handler.Get(1)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_, err = handler.Get(1)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	handler.GetStats()
-	handler.Update(1, &models.UserUpdateRequest{
+	err = handler.Update(1, &models.UserUpdateRequest{
 		Firstname: "Bogdan",
 		Lastname: "Azimjanov",
 	})
 
-	handler.Get(1)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	handler.Update(1, &models.UserUpdateRequest{
+	_, err = handler.Get(1)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = handler.Update(1, &models.UserUpdateRequest{
 		Firstname: "",
 		Lastname: "Azimzhanov",
 	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
 	
-	handler.Get(1)
+	_, err = handler.Get(1)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	handler.GetAllUsers()
 
-	handler.Register(&models.Request{
+	_, err = handler.Register(&models.Request{
 		AuthParams: models.AuthParams{
 			Login:    "Jo",
 			Password: "12345678",
 		},
 	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	handler.GetStats()
-	handler.Get(2)
+	_, err = handler.Get(2)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	handler.GetAllUsers()
 
-	handler.Update(2, &models.UserUpdateRequest{
+	err = handler.Update(2, &models.UserUpdateRequest{
 		Firstname: "John",
 		Lastname: "Doe",
 	})
 
-	handler.Get(2)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	handler.DeleteUser(2)
+	_, err = handler.Get(2)
 
-	handler.Get(2)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_, err = handler.DeleteUser(2)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_, err = handler.Get(2)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	handler.GetAllUsers()
 	handler.GetStats()

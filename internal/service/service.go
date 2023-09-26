@@ -28,7 +28,6 @@ type service struct {
 
 func (s *service) Register(request *models.User) (int64, error) {
 	id, err := s.repo.Add(request)
-
 	if err != nil {
 		return 0, err
 	}
@@ -38,7 +37,6 @@ func (s *service) Register(request *models.User) (int64, error) {
 
 func (s *service) UpdateUser(id int64, updatedUser *models.User) error {
 	err := s.repo.Update(id, updatedUser)
-
 	if err != nil {
 		return err
 	}
@@ -48,7 +46,6 @@ func (s *service) UpdateUser(id int64, updatedUser *models.User) error {
 
 func (s *service) GetUser(id int64) (*models.User, error) {
 	user, err := s.repo.Get(id)
-
 	if err != nil {
 		log.Println(err)
 		return &models.User{}, err
@@ -65,7 +62,6 @@ func (s *service) GetAllUsers() []*models.User {
 
 func (s *service) DeleteUser(id int64) (int64, error) {
 	id, err := s.repo.Delete(id)
-
 	if err != nil {
 		return 0, err
 	}

@@ -1,7 +1,6 @@
 package api
 
 import (
-
 	"github.com/Shemistan/Lesson_6/internal/converters"
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/service"
@@ -22,15 +21,12 @@ func New(serv service.IService) IApi {
 	}
 }
 
-
 type api struct {
 	serv service.IService
 }
 
-
 func (a *api) Register(req *models.Request) (int64, error) {
 	id, err := a.serv.Register(converters.ApiModelToServiceModel(*req))
-
 	if err != nil {
 		return 0, err
 	}
@@ -40,7 +36,6 @@ func (a *api) Register(req *models.Request) (int64, error) {
 
 func (a *api) Update(id int64, req *models.UserUpdateRequest) error {
 	err := a.serv.UpdateUser(id, converters.UserUpdate(*req))
-
 	if err != nil {
 		return err
 	}
@@ -50,10 +45,10 @@ func (a *api) Update(id int64, req *models.UserUpdateRequest) error {
 
 func (a *api) Get(id int64) (*models.User, error) {
 	user, err := a.serv.GetUser(id)
-
 	if err != nil {
 		return &models.User{}, err
 	}
+
 	return user, nil
 }
 
@@ -65,7 +60,6 @@ func (a *api) GetAllUsers() []*models.User {
 
 func (a *api) DeleteUser(id int64) (int64, error) {
 	id, err := a.serv.DeleteUser(id)
-
 	if err != nil {
 		return 0, err
 	}

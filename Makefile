@@ -6,4 +6,7 @@ test:
 	go test -race -coverprofile="coverage.out" -covermode=atomic ./... 
 	go tool cover -html="coverage.out" -o coverage.html
 
+lint:
+	golangci-lint run
+
 
