@@ -5,10 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Shemistan/Lesson_6/internal/models"
-	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/Shemistan/Lesson_6/internal/models"
+	mock_storage "github.com/Shemistan/Lesson_6/internal/storage/mocks"
 )
 
 func TestService(t *testing.T) {
