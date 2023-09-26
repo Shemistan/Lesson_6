@@ -20,7 +20,3 @@ type SAuth struct {
 	PasswordHash string
 }
 
-// func (id *IdGenerate) GetId() int32 {
-// 	id.IdGenerate++
-// 	return id.IdGenerate
-// }

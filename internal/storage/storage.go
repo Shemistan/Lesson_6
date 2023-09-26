@@ -40,32 +40,30 @@ func (s *SStorage) Add(user *models.SUser)(int32,error){
 	if user == nil{
 		return 0, errors.New("Error User not found")
 	}
+
 	if s.idg == 0 {
 		s.db[0]=user
 		t := time.Now()
 		user.RegistrationDate = t.Format("2006-01-02 15:04:05")
 		s.idg++
 		return 0, nil
-	}else{
-		// idg := id.GetId()
-		s.db[s.idg]=user
-		// fmt.Println("idg from storage: -->", s.idg)
-		t := time.Now()
-		user.RegistrationDate = t.Format("2006-01-02 15:04:05")
-		// idg := id.IdGenerate
-		// id.GetId()
-		s.idg++
-		return s.idg, nil
 	}
+		
+	s.db[s.idg]=user
+	t := time.Now()
+	user.RegistrationDate = t.Format("2006-01-02 15:04:05")
+	s.idg++
+
+	return s.idg, nil
+	
 }
 
 func (s *SStorage) Get(userId int32) (*models.SUser, error){
-
 	if value, ok := s.db[userId]; ok {
-		// fmt.Println(value, "ot Get")
 		return value, nil
 	}
-	return nil, errors.New("Error User ID not Found")
+
+	return nil, errors.New("Error cant get user")
 }
 
 func (s *SStorage) Update(userId int32, user *models.SUser) error{
@@ -84,6 +82,7 @@ func (s *SStorage) Update(userId int32, user *models.SUser) error{
 			return nil
 		}
 	}
+
 	return errors.New("Error Cant Update User")
 }
 
@@ -94,6 +93,7 @@ func (s *SStorage) Delete(userId int32) error{
 			return nil
 		}
 	}
+	
 	return errors.New("Error Cant Delete User")
 }
 
