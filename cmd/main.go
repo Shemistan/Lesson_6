@@ -28,16 +28,12 @@ func server1(){
 	user2 := models.SUser{Login: "qwerty",PasswordHash: "123",Name: "anvar",Surname: "nabijonov",Status: "active", Role: "active"}
 	user3 := models.SUser{Login: "qwerty123",PasswordHash: "123",Name: "anvar",Surname: "nabijonov",Status: "active", Role: "active"}
 	
-	id1, _ := db.Add(&user1)
-	id2, _ := db.Add(&user2)
-	id3,_ :=service.Add(&user3)
-	_ = id1
-	_ = id2
-	_ = id3
+	_, _ = db.Add(&user1)
+	_, _ = db.Add(&user2)
+	_,_ =service.Add(&user3)
 	id4, _ := service.Auth(&auth)
-	value, _ := service.GetUser(id4)
-	_,_ =id4, value
-	
+	_, _ = service.GetUser(id4)
+		
 	// API
 
 	reqAuth := `{"Login":"qwerty","PasswordHash":"123"}`   //json to service_struct
