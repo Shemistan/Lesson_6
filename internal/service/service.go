@@ -1,6 +1,8 @@
 package service
 
 import (
+	"log"
+
 	"github.com/Shemistan/Lesson_6/internal/models"
 	"github.com/Shemistan/Lesson_6/internal/storage"
 )
@@ -96,6 +98,8 @@ func (s *service)GetStatistics() map[string]int {
 	userStats["GetUsersStats"] = s.CounterGetUsers
 	userStats["UpdateUserStats"] = s.CounterUpdateUser
 	userStats["DeleteUserStats"] = s.CounterDeleteUser
+
+	log.Println("statistics: ", userStats)
 
 	return userStats
 }

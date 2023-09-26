@@ -4,7 +4,6 @@ import "time"
 
 type AddRequest struct {
 	AuthParams AuthData
-	Date       UserDate
 }
 
 type AuthData struct {

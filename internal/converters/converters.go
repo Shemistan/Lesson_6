@@ -3,6 +3,7 @@ package converters
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"time"
 
 	"github.com/Shemistan/Lesson_6/internal/models"
 )
@@ -15,12 +16,7 @@ func ApiAuthModelToServiceUserModel(req models.AddRequest) *models.User{
 	res := &models.User{
 		Login: req.AuthParams.Login,
 		HashPassword: hashPassword,
-		Name:             req.Date.Name,
-		Surname:          req.Date.Surname,
-		Status:           req.Date.Status,
-		Role:             req.Date.Role,
-		RegistrationDate: req.Date.RegistrationDate,
-		UpdateDate:       req.Date.UpdateDate,
+		RegistrationDate: time.Now(),
 	}
 
 	return res

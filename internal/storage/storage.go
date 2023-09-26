@@ -2,6 +2,7 @@ package storage
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -14,7 +15,6 @@ type IStorage interface {
 	GetUsers() ([]*models.User, error)
 	UpdateUser(userId int, user *models.UserDate) error
 	DeleteUser(userId int) error
-	//GetStatistics() *models.Statistics
 }
 
 type storage struct {
@@ -54,6 +54,8 @@ func (s *storage) Auth(user *models.User)(int, error) {
 	}
 
 	s.ids ++
+	user.Id = s.ids
+	s.db[s.ids] = user
 	log.Printf("user %v is add: %v", s.ids, user)
 
 	for k, v := range s.db {
@@ -104,16 +106,17 @@ func (s *storage) GetUsers()([]*models.User, error) {
 		}
 	}()
 
-	var users []*models.User
+	users := make([]*models.User, 0, len(s.db))
 
 	for _, v := range s.db {
 		 users = append(users, v)
+		 fmt.Println("users", users)
 	}
 
 		return users, nil
 }
 
-func (s *storage) UpdateUser(userId int, user *models.UserDate)(error) {
+func (s *storage) UpdateUser(userId int, user *models.UserDate) error {
 	if user == nil {
 		return errors.New("data is nil")
 	}
@@ -129,17 +132,18 @@ func (s *storage) UpdateUser(userId int, user *models.UserDate)(error) {
 		}
 	}()
 
-	userDb, isOk := s.db[userId]
-
-	if !isOk {
+	userDb, isok := s.db[userId]
+	
+	if !isok {
 		return errors.New("fall update user")
-	}
+	} 
 
 	userDb.Name = user.Name
 	userDb.Surname = user.Surname
 	userDb.Status = user.Status
 	userDb.Role = user.Role
 	userDb.UpdateDate = time.Now()
+	log.Printf("update user %v", user)
 
 	return nil
 
@@ -176,7 +180,7 @@ type Conn struct {
 
 func (c *Conn) Close() error {
 	if !c.val {
-		return errors.New("errors closing")
+		return errors.New("failed to close")
 	}
 
 	return nil
@@ -184,7 +188,7 @@ func (c *Conn) Close() error {
 
 func (c *Conn) Open() error {
 	if c.val {
-		return errors.New("errors opening")
+		return errors.New("failed to open Conn")
 	}
 
 	return nil
