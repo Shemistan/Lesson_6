@@ -41,7 +41,6 @@ func (s *storage) Add(user *models.User) (int64, error) {
 		return 0, errors.New("user is null")
 	}
 	existingUser, ok := s.db[user.Id]
-
 	if ok {
 		log.Printf("user with %d ID already exists", existingUser.Id)
 		return existingUser.Id, nil
@@ -50,6 +49,7 @@ func (s *storage) Add(user *models.User) (int64, error) {
 	s.idCounter++
 	user.Id = s.idCounter
 	s.db[s.idCounter] = user
+
 	return user.Id, nil
 }
 
@@ -57,8 +57,8 @@ func (s *storage) Update(id int64, updatedUser *models.User) error {
 	if id <= 0 {
 		return errors.New("id should be greater than 0")
 	}
-	user, ok := s.db[id]
 
+	user, ok := s.db[id]
 	if !ok {
 		return fmt.Errorf("user with id: %d not found", id)
 	}
@@ -74,8 +74,8 @@ func (s *storage) Update(id int64, updatedUser *models.User) error {
 
 	user.UpdatedDate = time.Now().String()
 	s.stats["update_user"]++
-	return nil
 
+	return nil
 }
 
 func (s *storage) Get(id int64) (*models.User, error) {
@@ -113,7 +113,6 @@ func (s *storage) Delete(id int64) (int64, error) {
 		return 0, errors.New("invalid id")
 	}
 	_, ok := s.db[id]
-
 	if !ok {
 		return 0, fmt.Errorf("user with id %d doesn't exist", id)
 	}

@@ -24,29 +24,26 @@ func Server(handler api.IApi) {
 			Password: "142536sa",
 		},
 	})
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	_, err = handler.Get(1)
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	handler.GetStats()
+	
 	err = handler.Update(1, &models.UserUpdateRequest{
 		Firstname: "Bogdan",
 		Lastname: "Azimjanov",
 	})
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	_, err = handler.Get(1)
-
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,13 +52,11 @@ func Server(handler api.IApi) {
 		Firstname: "",
 		Lastname: "Azimzhanov",
 	})
-
 	if err != nil {
 		fmt.Println(err)
 	}
 	
 	_, err = handler.Get(1)
-
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -74,14 +69,13 @@ func Server(handler api.IApi) {
 			Password: "12345678",
 		},
 	})
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	handler.GetStats()
-	_, err = handler.Get(2)
 
+	_, err = handler.Get(2)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -92,25 +86,21 @@ func Server(handler api.IApi) {
 		Firstname: "John",
 		Lastname: "Doe",
 	})
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	_, err = handler.Get(2)
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	_, err = handler.DeleteUser(2)
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	_, err = handler.Get(2)
-
 	if err != nil {
 		fmt.Println(err)
 	}
