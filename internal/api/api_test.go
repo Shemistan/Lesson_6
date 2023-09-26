@@ -25,13 +25,11 @@ func TestService(t *testing.T) {
 		storage.EXPECT().GetUsers().Return([]*models.User{}, nil)
 
 		userList, err := api.GetUsers()
-
 		if err != nil {
 			t.Error(err)
 		}
 
 		assert.Equal(t, []*models.User{}, userList)
-
 	})
 
 	userLogin := &models.AddRequest {
@@ -47,17 +45,14 @@ func TestService(t *testing.T) {
 		_, err := api.Auth(userLogin)
 
 		assert.Equal(t, errors.New("some errors"), err)
-
 	})
 
 	t.Run("Auth return success ", func(t *testing.T) {
 		storage.EXPECT().Auth(gomock.Any()).Return(1, nil)
 
-
 		res, _ := api.Auth(userLogin)
 
 		assert.Equal(t, 1, res)
-
 	})
 
 	t.Run("GetUser return error ", func(t *testing.T) {
@@ -66,11 +61,9 @@ func TestService(t *testing.T) {
 		_, err := api.GetUser(0)
 
 		assert.Equal(t, errors.New("some errors"), err)
-
 	})
 
 	t.Run("GetUser return success ", func(t *testing.T) {
-
 		testUser := models.User{
 			Id:               1,
 			Login:            "nods",
@@ -88,7 +81,6 @@ func TestService(t *testing.T) {
 		res, _ := api.GetUser(1)
 
 		assert.Equal(t, &testUser, res)
-
 	})
 
 	t.Run("UpdateUser return error ", func(t *testing.T) {
@@ -97,7 +89,6 @@ func TestService(t *testing.T) {
 		res := api.UpdateUser(0, nil)
 
 		assert.Equal(t, errors.New("some errors"), res)
-
 	})
 
 	t.Run("UpdateUser return success ", func(t *testing.T) {
@@ -106,7 +97,6 @@ func TestService(t *testing.T) {
 		res := api.UpdateUser(1, nil)
 
 		assert.Equal(t, nil, res)
-
 	})
 
 	t.Run("DeleteUser return error", func(t *testing.T) {
@@ -124,7 +114,5 @@ func TestService(t *testing.T) {
 
 		assert.Equal(t, nil, err)
 	})
-
-
 }
 	

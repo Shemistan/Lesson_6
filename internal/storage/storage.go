@@ -137,7 +137,6 @@ func (s *storage) UpdateUser(userId int, user *models.UserDate) error {
 	if !isok {
 		return errors.New("fall update user")
 	} 
-
 	userDb.Name = user.Name
 	userDb.Surname = user.Surname
 	userDb.Status = user.Status
