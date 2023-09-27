@@ -19,19 +19,19 @@ type IApi interface {
 	GetStatistics()
 }
 
-type SApi struct {
+type api struct {
 	repo service.IService
 }
 
 func NewIApi(repo service.IService) IApi{
-	return &SApi{repo: repo}
+	return &api{repo: repo}
 }
 
-func (s *SApi)GetStatistics(){
+func (s *api)GetStatistics(){
 	s.repo.GetStatistics()
 }
 
-func(s *SApi)DeleteUser(idjson string)error{
+func(s *api)DeleteUser(idjson string)error{
 	id,_ := convert.ApiIdConvertToService(idjson)
 	idg := id.Id
 	err := s.repo.DeleteUser(idg)
@@ -43,7 +43,7 @@ func(s *SApi)DeleteUser(idjson string)error{
 	return nil
 }
 
-func(s *SApi)GetUsers(){
+func(s *api)GetUsers(){
 	mapa := s.repo.GetMap()
 
 	for _, value := range mapa{
@@ -52,7 +52,7 @@ func(s *SApi)GetUsers(){
 	}
 }
 
-func(s *SApi)GetUser(idjson string)(string){
+func(s *api)GetUser(idjson string)(string){
 	id,_ := convert.ApiIdConvertToService(idjson)
 	idg := id.Id
 	user1, _  := s.repo.GetUser(idg)
@@ -61,7 +61,7 @@ func(s *SApi)GetUser(idjson string)(string){
 	return str
 }
 
-func(s *SApi)Update(id int32,str string)error{
+func(s *api)Update(id int32,str string)error{
 	update1, err := convert.ApiUserConvertToService(str)
 
 	if err != nil {
@@ -77,7 +77,7 @@ func(s *SApi)Update(id int32,str string)error{
 	return errors.New("Error Cant Update user")
 }
 
-func(s *SApi)Add(str string)(bool,error){
+func(s *api)Add(str string)(bool,error){
 	user, err := convert.ApiUserConvertToService(str)
 
 	if err != nil {
@@ -93,7 +93,7 @@ func(s *SApi)Add(str string)(bool,error){
 	return false, errors.New("Error Json Add to service")
 }
 
-func (s *SApi)Auth(jauth string)(string,error){
+func (s *api)Auth(jauth string)(string,error){
 	user1 := convert.ApiAuthConvertToService(jauth)
 	var str string
 

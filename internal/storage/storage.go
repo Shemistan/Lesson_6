@@ -17,26 +17,26 @@ type IStorage interface {
 	GetMap() (map1 map[int32]*models.SUser)
 }
 
-type SStorage struct{
+type storage struct{
 	idg int32
 	db map[int32]*models.SUser
 }
 
 func NewIStorage() IStorage{
-	return &SStorage{idg: 0,db: make(map[int32]*models.SUser)}
+	return &storage{idg: 0,db: make(map[int32]*models.SUser)}
 }
 
-func (s *SStorage) GetMap() (map[int32]*models.SUser){
+func (s *storage) GetMap() (map[int32]*models.SUser){
 	return s.db
 }
 
-func (s *SStorage) GetAll() {
+func (s *storage) GetAll() {
 	for key, value := range s.db{
 		fmt.Println("Key: ", key, "Value: ", value)
 	} 
 }
 
-func (s *SStorage) Add(user *models.SUser)(int32,error){
+func (s *storage) Add(user *models.SUser)(int32,error){
 	if user == nil{
 		return 0, errors.New("Error User not found")
 	}
@@ -55,10 +55,9 @@ func (s *SStorage) Add(user *models.SUser)(int32,error){
 	s.idg++
 
 	return s.idg, nil
-	
 }
 
-func (s *SStorage) Get(userId int32) (*models.SUser, error){
+func (s *storage) Get(userId int32) (*models.SUser, error){
 	if value, ok := s.db[userId]; ok {
 		return value, nil
 	}
@@ -66,7 +65,7 @@ func (s *SStorage) Get(userId int32) (*models.SUser, error){
 	return nil, errors.New("Error cant get user")
 }
 
-func (s *SStorage) Update(userId int32, user *models.SUser) error{
+func (s *storage) Update(userId int32, user *models.SUser) error{
 	if user == nil {
 		return errors.New("Error User not found")
 	}
@@ -86,7 +85,7 @@ func (s *SStorage) Update(userId int32, user *models.SUser) error{
 	return errors.New("Error Cant Update User")
 }
 
-func (s *SStorage) Delete(userId int32) error{
+func (s *storage) Delete(userId int32) error{
 	for key := range s.db {
 		if key == userId {
 			delete(s.db, userId)
