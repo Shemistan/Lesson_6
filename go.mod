@@ -1,4 +1,4 @@
-module golang-api
+module github.com/nasrullonurullaev5/Lesson_6
 
 go 1.20
 
