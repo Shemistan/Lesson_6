@@ -97,12 +97,12 @@ start:
 
 		fmt.Println("\nUpdating user data")
 		err = userController.UpdateUser(userID, &model.User{
-			Name:         "Undefined",
-			Surname:      "Undefined",
-			Login:        "Undefined",
+			Name:         "Nasrullo",
+			Surname:      "Nurullaev",
+			Login:        "nasrullonurullaev",
 			HashPassword: 0,
-			Status:       "Undefined",
-			Role:         "Undefined",
+			Status:       "Status",
+			Role:         "Role",
 		})
 		if err != nil {
 			fmt.Println(err)
