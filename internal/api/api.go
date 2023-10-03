@@ -69,6 +69,5 @@ func (a *api)DeleteUser(userId int) error {
 }
 
 func (a *api)GetStatistics() map[string]int {
-	
 	return a.serv.GetStatistics()
 }

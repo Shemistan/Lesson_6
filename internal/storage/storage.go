@@ -60,13 +60,7 @@ func (s *storage) Auth(user *models.User)(int, error) {
 
 	for k, v := range s.db {
 		if v.Login == user.Login {
-			if v.HashPassword == user.HashPassword {
-				return k, nil
-			} else {
-				return 0, errors.New("Wrong password")
-			}
-		} else {
-			return k, errors.New("user exists in the database")
+			return k, nil
 		}
 	}
 
@@ -86,12 +80,12 @@ func (s *storage) GetUser(userId int)(*models.User, error) {
 		}
 	}()
 
-		user, isOk := s.db[userId]
-		if isOk {
-			return user, nil
-		}
+	user, isOk := s.db[userId]
+	if isOk {
+		return user, nil
+	}
 
-		return nil, errors.New("User not found")
+	return nil, errors.New("User not found")
 }
 
 func (s *storage) GetUsers()([]*models.User, error) {
@@ -113,7 +107,7 @@ func (s *storage) GetUsers()([]*models.User, error) {
 		 fmt.Println("users", users)
 	}
 
-		return users, nil
+	return users, nil
 }
 
 func (s *storage) UpdateUser(userId int, user *models.UserDate) error {
@@ -145,7 +139,6 @@ func (s *storage) UpdateUser(userId int, user *models.UserDate) error {
 	log.Printf("update user %v", user)
 
 	return nil
-
 }
 
 func (s *storage) DeleteUser(userId int) error {
@@ -160,13 +153,14 @@ func (s *storage) DeleteUser(userId int) error {
 		}
 	}()
 
-		_, isOk := s.db[userId]
-		if !isOk {
-			return errors.New("not found userId")
-		} else {
-			delete(s.db, userId)
-			return nil
-		}
+	_, isOk := s.db[userId]
+	if !isOk {
+		return errors.New("not found userId")
+	}
+	
+	delete(s.db, userId)
+
+	return nil
 }
 
 func NewConnect() *Conn {

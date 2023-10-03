@@ -26,7 +26,6 @@ func Server(handler api.IApi) {
 			Password: "nods123",
 		},
 	})
-
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -37,7 +36,6 @@ func Server(handler api.IApi) {
 			Password: "nods123",
 		},
 	})
-
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -57,19 +55,16 @@ func Server(handler api.IApi) {
 	}
 
 	_, err = handler.GetUser(1)
-
 	if err != nil {
 		log.Println(err.Error())
 	} 
 
 	err = handler.DeleteUser(1)
-
 	if err != nil {
 		log.Println(err)
 	} 
 
 	_, err = handler.GetUsers()
-
 	if err != nil {
 		log.Println(err.Error())
 	} 
